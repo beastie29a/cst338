@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 public class Assignment1
 {
-   // Declasre the constants
+   // Declare the constants
    public static final int MIN_HOURS = 12;
    public static final int MAX_HOURS = 20;
 
@@ -35,7 +35,7 @@ public class Assignment1
 
       // Concatenate the first and last name
       fullName = firstName + " " + lastName;
-      length = firstName.length() + lastName.length();
+      length = fullName.length();
 
       // Print out information to the screen
       System.out.println("Your Full Name is: " + fullName);
@@ -76,7 +76,7 @@ Capitalize the first initial of each:
 Robert
 Contreras
 Your Full Name is: Robert Contreras
-The length is: 15 Characters
+The length is: 16 Characters
 Your Full Name in upper case: ROBERT CONTRERAS
 Your Full Name in lower case: robert contreras
 
@@ -96,7 +96,7 @@ Capitalize the first initial of each:
 George
 Washington
 Your Full Name is: George Washington
-The length is: 16 Characters
+The length is: 17 Characters
 Your Full Name in upper case: GEORGE WASHINGTON
 Your Full Name in lower case: george washington
 
