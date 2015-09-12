@@ -10,28 +10,71 @@ import java.lang.Math;
 
 public class Assignment2
 {
+
+   public static final int MIN_BET = 1;
+   public static final int MAX_BET = 100; 
+  // Test Main
    public static void main(String[] args)
    {
       
+      int multiplier, winnings;
+      int myBet = getBet();
+      
+      while (0 != myBet)
+      {
+         TripleString myPull = pull();
+         multiplier = getPayMultiplier(myPull);
+         winnings = multiplier * myBet;
+         display(myPull, winnings);
+         
+         myBet = getBet();
+      }
    }
    
    public static int getBet()
    {
-      return 1;
+      Scanner keyboard = new Scanner(System.in);
+      
+      while (true)
+      {
+         System.out.println("How much would you like to bet " + MIN_BET 
+            + " - " + MAX_BET + " ) or 0 to quit? ");
+         
+         int myBet = keyboard.nextInt();
+      
+         if (myBet == 0)
+            return 0;
+         
+         if (myBet < MIN_BET)
+            System.out.println("Bet is less than the minimum bet of "
+               + MIN_BET + "\nTry again");
+         else if (myBet > MAX_BET)
+            System.out.println("Bet is greater than the minimum bet of "
+               + MAX_BET + "\nTry again");
+         else
+            return myBet;
+      }
    }
    
    public static TripleString pull()
    {
       TripleString pullString = new TripleString();
-      pullString.setString1(randString());
-      pullString.setString2(randString());
-      pullString.setString3(randString());
+      
+      if (!pullString.setString1(randString()))
+         System.out.println("Unable to set string1");
+      
+      if (!pullString.setString2(randString()))
+         System.out.println("Unable to set string2");
+      
+      if (!pullString.setString3(randString()))
+         System.out.println("Unable to set string3");
+      
       return pullString;
    }
    
    private static String randString()
    {
-      int randInt = (int)Math.random() * 1000;
+      int randInt = (int)(Math.random() * 1000);
       
       if (randInt < 500)
          return "BAR";
@@ -44,16 +87,39 @@ public class Assignment2
    
    public static int getPayMultiplier(TripleString thePull)
    {
-      return 2;
+      if (thePull.getString1().equals("cherries"))
+      {
+         if (thePull.getString2().equals("cherries"))
+         {
+            if (thePull.getString3().equals("cherries"))
+               return 30;
+            return 15;
+         }
+         return 5;
+      }
+      
+      if (thePull.getString1().equals("BAR")
+         && thePull.getString2().equals("BAR")
+         && thePull.getString3().equals("BAR"))
+         return 50;
+      
+      if (thePull.getString1().equals("7")
+         && thePull.getString2().equals("7")
+         && thePull.getString3().equals("7"))
+         return 100;
+
+      return 0;
    }
-   
-   
    
    public static void display(TripleString thePull, int winnings )
    {
-      // Nothing to return
+      System.out.println("whirrrrrr .... and your pull is ...");
+      System.out.println(thePull.toString());
+      if (winnings > 0)
+         System.out.println("congratulations, you win: " + winnings);
+      else
+         System.out.println("sorry, you lose.");
    }
-   
 }
 
 class TripleString
@@ -65,7 +131,7 @@ class TripleString
    private String string2;
    private String string3;
    private static int[] pullWinnings;
-   private static int numPulls;
+   private static int numPulls = 0;
    
    public TripleString()
    {
@@ -82,19 +148,19 @@ class TripleString
       return false;
    }
    
-   public boolean getString1( String str )
+   public String getString1()
    {
-      return true;
+      return string1;
    }
    
-   public boolean getString2( String str )
+   public String getString2()
    {
-      return true;
+      return string2;
    }
    
-   public boolean getString3( String str )
+   public String getString3()
    {
-      return true;
+      return string3;
    }
    
    public boolean setString1( String str )
@@ -132,7 +198,7 @@ class TripleString
       return string1 + " " + string2 + " " + string3;
    }
    
-   public void saveWinnings(int winnings)
+   public void saveWinnings( int winnings )
    {
       pullWinnings[numPulls] = winnings;
    }
@@ -144,7 +210,8 @@ class TripleString
       System.out.println();
    }
    
-   
-   
-
+   public void incrementPulls()
+   {
+      numPulls++;
+   }
 }
