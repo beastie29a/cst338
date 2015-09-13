@@ -12,23 +12,25 @@ public class Assignment2
 {
 
    public static final int MIN_BET = 1;
-   public static final int MAX_BET = 100; 
+   public static final int MAX_BET = 100;
   // Test Main
    public static void main(String[] args)
    {
-      
       int multiplier, winnings;
       int myBet = getBet();
-      
+      TripleString finalPull = new TripleString();
+
       while (0 != myBet)
       {
          TripleString myPull = pull();
          multiplier = getPayMultiplier(myPull);
          winnings = multiplier * myBet;
+         myPull.saveWinnings(winnings);
          display(myPull, winnings);
          
          myBet = getBet();
       }
+      System.out.println(finalPull.displayWinnings());
    }
    
    public static int getBet()
@@ -130,7 +132,7 @@ class TripleString
    private String string1;
    private String string2;
    private String string3;
-   private static int[] pullWinnings;
+   private static int[] pullWinnings = new int[MAX_PULLS];;
    private static int numPulls = 0;
    
    public TripleString()
@@ -138,12 +140,12 @@ class TripleString
       string1 = new String("");
       string2 = new String("");
       string3 = new String("");
-      pullWinnings = new int[MAX_PULLS];
    }
    
    private boolean validString( String str )
    {
-      if ( str != null && str.length() < MAX_LEN )
+      if ( str != null && str
+            .length() < MAX_LEN )
          return true;
       return false;
    }
@@ -200,18 +202,23 @@ class TripleString
    
    public void saveWinnings( int winnings )
    {
-      pullWinnings[numPulls] = winnings;
+      pullWinnings[numPulls++] = winnings;
    }
    
-   public void displayWinnings()
+   public String displayWinnings()
    {
-      for (int i = 0; i < MAX_PULLS ; i++ )
-         System.out.print(pullWinnings[i]);
-      System.out.println();
+      String displayString;
+      int totalWinnings = 0;
+      displayString = "Thanks for playing at the Casino!\n"
+         + "Your total winnings were:\n";
+      for (int i = 0; i < numPulls ; i++ )
+      {
+         displayString += "$" + pullWinnings[i] + " ";
+         totalWinnings += pullWinnings[i];
+      }
+      displayString += "\n" + "Your total winnings were: "
+         + "$" + totalWinnings;
+      return displayString;
    }
    
-   public void incrementPulls()
-   {
-      numPulls++;
-   }
 }
