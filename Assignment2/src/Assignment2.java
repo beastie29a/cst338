@@ -11,6 +11,8 @@ import java.lang.Math;
 public class Assignment2
 {
 
+   // Global Scanner
+   private static Scanner keyboard = new Scanner(System.in);
    // Constants to set the betting range
    public static final int MIN_BET = 1;
    public static final int MAX_BET = 100;
@@ -37,15 +39,14 @@ public class Assignment2
          
          myBet = getBet();
       }
+      keyboard.close();
       // Loop ended, print out the winnings to the console
       System.out.println(finalPull.displayWinnings());
    }
    
    // prompts the user for input, returns int
    public static int getBet()
-   {
-      Scanner keyboard = new Scanner(System.in);
-      
+   {  
       while (true)
       {
          System.out.println("How much would you like to bet " + MIN_BET 
