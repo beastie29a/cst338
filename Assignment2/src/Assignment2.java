@@ -141,7 +141,7 @@ public class Assignment2
    public static void display(TripleString thePull, int winnings )
    {
       System.out.println("whirrrrrr .... and your pull is ...");
-      System.out.println(thePull.toString());
+      System.out.println(thePull);
       if (winnings > 0)
          System.out.println("congratulations, you win: " + winnings);
       else
