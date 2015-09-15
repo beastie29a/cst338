@@ -1,8 +1,7 @@
 /*
-   Robert Contreras
+   Team: Robert Contreras, Hyo Lee, Ryan Doherty
    CST 338 - Fall 2015 Session A
-   Assignment 1, Part 1 and 2
-   Team Members: Hyo Lee, Ryan Doherty
+   Assignment 2, Casino
 */
 
 import java.util.*;
