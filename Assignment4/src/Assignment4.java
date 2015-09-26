@@ -14,8 +14,37 @@ public Class Assignment4
 
       Scanner keyboard = new Scanner(System.in);
       keyboard.close();
+      testBarcodeImage();
 
       System.out.println();
+   }
+
+
+   public static void testBarcodeImage(){
+
+      String[] testCode = new String[1950];
+      for (int x=0;x<1950;x++){
+         if (x%2==0){
+            testCode[x]=" ";
+         } else {
+            testCode[x]="*";
+         }
+      }
+
+      for (int x=0;x<1950;x++){
+         System.out.print(testCode[x]);
+      }
+
+      System.out.println();
+      System.out.println();
+
+      BarcodeImage stringBarcodeImage =  new BarcodeImage(testCode);
+      stringBarcodeImage.displayToConsole();
+
+      System.out.println();
+      System.out.println();
+      BarcodeImage cloneBarcodeImage = stringBarcodeImage.clone();
+      cloneBarcodeImage.displayToConsole();
    }
 
 }
