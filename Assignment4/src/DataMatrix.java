@@ -1,4 +1,4 @@
-public Class DataMatrix
+public class DataMatrix
    {
 
    }

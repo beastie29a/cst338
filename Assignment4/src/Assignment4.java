@@ -5,8 +5,9 @@
    @author Ryan Doherty
    @author Hyo Lee
 */
+import java.util.*;
 
-public Class Assignment4
+public class Assignment4
 {
 
    public static void main(String[] args)
