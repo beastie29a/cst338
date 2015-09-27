@@ -100,12 +100,13 @@ public class DataMatrix implements BarcodeIO
 
    public boolean translateImageToText()
    {
+      this.text = "";
       // Make sure image is within ASCII range
 
       if (actualHeight > 8)
          return false;
       // Iterate through each column, concatenating the string with chars
-      for ( int i = 0 ; i < actualWidth ; i++)
+      for ( int i = 1 ; i < actualWidth ; i++)
          this.text += readCharFromCol(i);
 
       return true;
@@ -144,11 +145,11 @@ public class DataMatrix implements BarcodeIO
 
    private char readCharFromCol(int col)
    {
-      int row = getActualHeight();
+      int row = image.MAX_HEIGHT - 2;
       int charDec = 0;
 
       for ( int i = 0; i < getActualHeight() ; i++)
-         if (image.getPixel(row++,col))
+         if (image.getPixel(row--,col))
             charDec += Math.pow(2,i);
 
       return (char) charDec;
