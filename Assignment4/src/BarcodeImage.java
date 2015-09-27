@@ -15,13 +15,37 @@ class BarcodeImage implements Cloneable {
         //initialize 2d array - all elements default to false
         image_data = new boolean[MAX_HEIGHT][MAX_WIDTH];
         
-        if (checkSize(str_data)){
-	        //convert 1d string array to 2d boolean array
-	        for (int x=0;x<str_data.length;x++){
-	            if (str_data[x].equals("*")){
-	                setPixel((x/MAX_WIDTH),(x%MAX_WIDTH),true);
-	            }
-	        }
+        //find the top row of the code
+        int topRow=0;
+        for (int x=0;x<str_data.length-1;x++){
+        	if ((str_data[x]).trim().equals("")){
+        		topRow++;
+        	}else{
+        		break;
+        	}
+        }
+
+        //find the bottom row of the code
+        int bottomUp=0;
+        for (int x=str_data.length-1;x>0;x--){
+        	if ((str_data[x]).trim().equals("")){
+        		bottomUp++;
+        	}else{
+        		break;
+        	}
+        }
+        
+        int bottomRow=(str_data.length-1)-bottomUp;
+        
+        //write the code into the image_data array
+        //from bottom left corner and up
+        for (int x=bottomRow;x>=topRow;x--){
+        	String temp=str_data[x].trim();
+        	for (int k=0;k<temp.length();k++){
+        		if (temp.charAt(k) ==  '*'){
+        			setPixel(((MAX_HEIGHT-1)-(bottomRow-x)),k,true);
+        		}
+        	}
         }
     }
     
