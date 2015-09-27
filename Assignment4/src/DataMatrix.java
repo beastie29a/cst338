@@ -114,14 +114,37 @@ public class DataMatrix implements BarcodeIO
 
    public void displayTextToConsole()
    {
-      System.out.println("DISPLAY TEXT TO CONSOLE");
       System.out.println(text);
    }
 
    public void displayImageToConsole()
    {
-      System.out.println("DISPLAY IMAGE TO CONSOLE");
-      image.displayToConsole();
+      int col;
+      // Get real signal width and add 2 for the left and right
+      int endCol = getActualWidth() + 2;
+
+      for ( int i = 0 ; i < endCol + 2; i++)
+         System.out.print("-");
+
+      System.out.println();
+
+      for ( int i = 0 ; i < image.MAX_HEIGHT ; i++)
+      {
+         col = 0;
+         if (image.getPixel(i, 0))
+         {
+            System.out.print("|");
+            for (; col < endCol; col++)
+            {
+               if (image.getPixel(i, col))
+                  System.out.print(BLACK_CHAR);
+               else
+                  System.out.print(WHITE_CHAR);
+            }
+            System.out.println("|");
+
+         }
+      }
    }
 
    private void cleanImage()
