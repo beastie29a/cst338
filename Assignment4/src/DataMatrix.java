@@ -1,5 +1,6 @@
 
-public class DataMatrix implements BarcodeIO
+
+public class datamatrix implements barcodeio
 {
 
    public static final char BLACK_CHAR = '*';
@@ -10,9 +11,8 @@ public class DataMatrix implements BarcodeIO
 
    public DataMatrix()
    {
-      this.image = new BarcodeImage();
-      actualWidth = actualHeight = 0;
-      readText("undefined");
+      actualwidth = actualheight = 0;
+      readtext("undefined");
    }
 
    public DataMatrix(BarcodeImage image)
@@ -23,106 +23,20 @@ public class DataMatrix implements BarcodeIO
 
    public DataMatrix(String text)
    {
-      if (readText(text))
+      if (readtext(text))
          System.out.print("Worked!");
    }
 
-   public boolean readText(String text)
+   public boolean readtext(String text)
    {
-      if (text.length() < image.MAX_WIDTH)
-      {
-         this.text = text;
-         return true;
-      }
-      return false;
+      this.text = text;
    }
 
    public boolean scan(BarcodeImage image)
    {
-      //this.image = super.clone(image);
-      this.actualWidth = 0;
+      this.image = super.clone(image);
       this.actualHeight = 0;
-      cleanImage();
-      return true;
-   }
-
-   public int getActualWidth()
-   {
-      return actualWidth;
-   }
-
-   public int getActualHeight()
-   {
-      return actualHeight;
-   }
-
-   private int computeSignalWidth()
-   {
-      return 1;
-   }
-
-   private int computeSignalHeight()
-   {
-       return 1;
-   }
-
-   public boolean generateImageFromText()
-   {
-      return true;
-   }
-
-   public boolean translateImageToText()
-   {
-      return true;
-   }
-
-   public void displayTextToConsole()
-   {
-      // Something here
-   }
-
-   public void displayImageToConsole()
-   {
-      // Something here
-   }
-
-   private void cleanImage()
-   {
-      // Something here
-   }
-
-   private void moveImageToLowerLeft()
-   {
-      // Something here
-   }
-
-   private void shiftImageDown(int offset)
-   {
-      // Something here
-   }
-   private void shiftImageLeft(int offset)
-   {
-      // Something here
-   }
-
-   private char readCharFromCol(int col)
-   {
-      return 'c';
-   }
-
-   private boolean WriteCharToCol(int col, int code)
-   {
-      return true;
-   }
-
-   public void displayRawImage()
-   {
-      // Something here
-   }
-
-   private void clearImage()
-   {
-      // Something here
+      this.actualHeight = 0;
    }
 
 }
