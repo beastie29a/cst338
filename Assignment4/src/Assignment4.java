@@ -15,7 +15,7 @@ public class Assignment4
 
       Scanner keyboard = new Scanner(System.in);
       keyboard.close();
-      sampleMain();
+      //sampleMain();
       System.out.println();
       System.out.println();
       testBarcodeImage();
@@ -92,7 +92,7 @@ public class Assignment4
    }
 
    public static void testBarcodeImage(){
-
+/*
       String[] testCode = new String[1950];
       for (int x=0;x<1950;x++){
          if (x%2==0){
@@ -104,18 +104,39 @@ public class Assignment4
 
       for (int x=0;x<1950;x++){
          System.out.print(testCode[x]);
-      }
+      }*/
+	   
+      String[] sImageIn =
+          {
+          "                                               ",
+          "                                               ",
+          "                                               ",
+          "     * * * * * * * * * * * * * * * * * * * * * ",
+          "     *                                       * ",
+          "     ****** **** ****** ******* ** *** *****   ",
+          "     *     *    ****************************** ",
+          "     * **    * *        **  *    * * *   *     ",
+          "     *   *    *  *****    *   * *   *  **  *** ",
+          "     *  **     * *** **   **  *    **  ***  *  ",
+          "     ***  * **   **  *   ****    *  *  ** * ** ",
+          "     *****  ***  *  * *   ** ** **  *   * *    ",
+          "     ***************************************** ",
+          "                                               ",
+          "                                               ",
+          "                                               "
 
+          };
+      
       System.out.println();
       System.out.println();
 
-      BarcodeImage stringBarcodeImage =  new BarcodeImage(testCode);
+      BarcodeImage stringBarcodeImage =  new BarcodeImage(sImageIn);
       stringBarcodeImage.displayToConsole();
 
       System.out.println();
-      System.out.println();
-      BarcodeImage cloneBarcodeImage = stringBarcodeImage.clone();
-      cloneBarcodeImage.displayToConsole();
+     // System.out.println();
+     // BarcodeImage cloneBarcodeImage = stringBarcodeImage.clone();
+      //cloneBarcodeImage.displayToConsole();
    }
 
 }
