@@ -6,9 +6,7 @@
    @author Hyo Lee
 */
 
-import java.util.*;
-
-public class Assignment4
+public Class Assignment4
 {
 
    public static void main(String[] args)
@@ -16,7 +14,7 @@ public class Assignment4
 
       Scanner keyboard = new Scanner(System.in);
       keyboard.close();
-      //sampleMain();
+      sampleMain();
 
       testBarcodeImage();
 
