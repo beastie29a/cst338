@@ -1,4 +1,3 @@
-
 public class DataMatrix implements BarcodeIO
 {
 
@@ -123,6 +122,18 @@ public class DataMatrix implements BarcodeIO
    private void clearImage()
    {
       // Something here
+   }
+
+   public boolean readtext(String text)
+   {
+      this.text = text;
+   }
+
+   public boolean scan(BarcodeImage image)
+   {
+      this.image = super.clone(image);
+      this.actualHeight = 0;
+      this.actualHeight = 0;
    }
 
 }
