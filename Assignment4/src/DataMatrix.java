@@ -39,10 +39,18 @@ public class DataMatrix implements BarcodeIO
 
    public boolean scan(BarcodeImage image)
    {
-      //this.image = super.clone(image);
-      this.actualWidth = 0;
-      this.actualHeight = 0;
-      cleanImage();
+      try
+      {
+         this.image = image.clone();
+      }
+      catch (CloneNotSupportedException exception)
+      {
+        // Does nothing
+      }
+
+      this.actualWidth = this.computeSignalWidth();
+      this.actualHeight = this.computeSignalHeight();
+//      cleanImage();
       return true;
    }
 
@@ -58,32 +66,56 @@ public class DataMatrix implements BarcodeIO
 
    private int computeSignalWidth()
    {
-      return 1;
+      int columnWidth = 0;
+
+      while (image.getPixel(0,columnWidth++)){}
+      // Subtract
+      return columnWidth - 2;
    }
 
    private int computeSignalHeight()
    {
-       return 1;
+      int signalHeight = 0;
+
+      while (image.getPixel(signalHeight++,0)){}
+
+      return signalHeight - 2;
    }
 
    public boolean generateImageFromText()
    {
+      this.image = new BarcodeImage();
+      // Iterate through each colum assigning the character
+      for ( int i = 0 ; i < text.length() ; i++)
+      {
+         // Type cast char to in to get ASCII decimal represenation
+         if (!WriteCharToCol(i, (int) text.charAt(i)))
+            return false;
+      }
       return true;
    }
 
    public boolean translateImageToText()
    {
+      // Make sure image is within ASCII range
+      if (actualHeight > 8)
+         return false;
+      // Iterate through each column, concatenating the string with chars
+      for ( int i = 0 ; i < actualWidth ; i++)
+         this.text += readCharFromCol(i);
       return true;
    }
 
    public void displayTextToConsole()
    {
-      // Something here
+      System.out.println("DISPLAY TEXT TO CONSOLE");
+      System.out.println(text);
    }
 
    public void displayImageToConsole()
    {
-      // Something here
+      System.out.println("DISPLAY IMAGE TO CONSOLE");
+      image.displayToConsole();
    }
 
    private void cleanImage()
@@ -107,11 +139,36 @@ public class DataMatrix implements BarcodeIO
 
    private char readCharFromCol(int col)
    {
-      return 'c';
+      int row = getActualHeight();
+      int charDec = 0;
+
+      for ( int i = 0; i < getActualHeight() ; i++)
+         if (image.getPixel(row++,col))
+            charDec += Math.pow(2,i);
+
+      return (char) charDec;
    }
 
+   // Writes a character to a column in ASCII format
    private boolean WriteCharToCol(int col, int code)
    {
+      // Make sure the column is withing our actual image width
+      if (col > getActualWidth() || col < 0)
+         return false;
+
+      // Make the sure code is in the extended ASCII table
+      if (code > 255 || code < 0)
+         return false;
+
+      // Covert the (int) char into a binary string
+      String binaryString = Integer.toBinaryString(code);
+
+      // Populate the matrix from bottom -> up
+      for ( int row = binaryString.length() ; row >= 0 ; row-- )
+      {
+         if (binaryString.charAt(row) == '1')
+            image.setPixel(row, col, true);
+      }
       return true;
    }
 
