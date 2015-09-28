@@ -90,6 +90,13 @@ public class Assignment4
       dm.displayTextToConsole();
       dm.displayRawImage();
       dm.displayImageToConsole();
+
+      DataMatrix dmTest = new DataMatrix("Testing the DataMatrix( text ) " +
+         "constructor.");
+      dmTest.displayTextToConsole();
+      dmTest.generateImageFromText();
+      dmTest.displayRawImage();
+
    }
 
    public static void testBarcodeImage(){

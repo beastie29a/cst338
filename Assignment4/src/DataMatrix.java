@@ -57,12 +57,12 @@ public class DataMatrix implements BarcodeIO
 
    public int getActualWidth()
    {
-      return actualWidth;
+      return this.actualWidth;
    }
 
    public int getActualHeight()
    {
-      return actualHeight;
+      return this.actualHeight;
    }
 
    private int computeSignalWidth()
@@ -71,8 +71,8 @@ public class DataMatrix implements BarcodeIO
       int columnWidth = 0;
 
       while (image.getPixel((image.MAX_HEIGHT - 1), columnWidth++)){}
-      // Subtract left and right edge and last while loop condition
-      return columnWidth - 3;
+      // Subtract the last while loop condition
+      return columnWidth - 1;
    }
 
    private int computeSignalHeight()
@@ -81,15 +81,15 @@ public class DataMatrix implements BarcodeIO
 
       while (image.getPixel((image.MAX_HEIGHT - ++signalHeight),0)){}
 
-      // Subtract top and bottom edge and last while loop condition
-      return signalHeight - 3;
+      // Subtract the last while loop condition
+      return signalHeight - 1;
    }
 
    public boolean generateImageFromText()
    {
       this.image = new BarcodeImage();
       this.actualWidth = text.length();
-      this.actualHeight = ASCII_BINARY_DIGITS;
+
 /*
       // First create the border - at the top left of array [0][0]
       for ( int i = 0 ; i < actualWidth ; i++)
@@ -110,18 +110,21 @@ public class DataMatrix implements BarcodeIO
          if (!WriteCharToCol(i, (int) text.charAt(i)))
             return false;
       }
+
+      this.actualHeight = this.computeSignalHeight();
       return true;
    }
 
    public boolean translateImageToText()
    {
       this.text = "";
-      // Make sure image is within ASCII range
 
-      if (actualHeight > 8)
+      // Make sure the values are within range
+      if (actualHeight > 10)
          return false;
+
       // Iterate through each column, concatenating the string with chars
-      for ( int i = 1 ; i < actualWidth ; i++)
+      for ( int i = 1 ; i < actualWidth - 1 ; i++)
          this.text += readCharFromCol(i);
 
       return true;
@@ -132,12 +135,13 @@ public class DataMatrix implements BarcodeIO
       System.out.println(text);
    }
 
+   // Assumes being called from a cleanImage() object
    public void displayImageToConsole()
    {
       int col;
-      // Get real signal width and add 2 for the left and right
-      int endCol = getActualWidth() + 2;
+      int endCol = getActualWidth();
 
+      // Print top outline, 2 longer than the Barcode
       for ( int i = 0 ; i < endCol + 2; i++)
          System.out.print("-");
 
@@ -146,9 +150,12 @@ public class DataMatrix implements BarcodeIO
       for ( int i = 0 ; i < image.MAX_HEIGHT ; i++)
       {
          col = 0;
+         // Search for the first * on the left spine
          if (image.getPixel(i, 0))
          {
+            // Left outline
             System.out.print("|");
+            // Got through each row to draw the barcode
             for (; col < endCol; col++)
             {
                if (image.getPixel(i, col))
@@ -156,6 +163,7 @@ public class DataMatrix implements BarcodeIO
                else
                   System.out.print(WHITE_CHAR);
             }
+            // Right outline
             System.out.println("|");
 
          }
@@ -183,13 +191,15 @@ public class DataMatrix implements BarcodeIO
 
    private char readCharFromCol(int col)
    {
+      // Initially position row at the ones row
       int row = image.MAX_HEIGHT - 2;
+      // Int to total char decimal values
       int charDec = 0;
 
-      // Iterate through the column and add
-      for ( int i = 0; i < getActualHeight() ; i++)
+      // Check is array values are true and calculate the value
+      for ( int exponent = 0 ; exponent < actualHeight - 2 ; exponent++)
          if (image.getPixel(row--,col))
-            charDec += Math.pow(2,i);
+            charDec += Math.pow(2,exponent);
 
       return (char) charDec;
    }
