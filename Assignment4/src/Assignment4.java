@@ -15,10 +15,10 @@ public class Assignment4
 
       Scanner keyboard = new Scanner(System.in);
       keyboard.close();
-      //sampleMain();
+      sampleMain();
       System.out.println();
       System.out.println();
-      testBarcodeImage();
+      //testBarcodeImage();
 
       System.out.println();
    }
@@ -88,6 +88,7 @@ public class Assignment4
       dm.readText("What a great resume builder this is!");
       dm.generateImageFromText();
       dm.displayTextToConsole();
+      dm.displayRawImage();
       dm.displayImageToConsole();
    }
 
