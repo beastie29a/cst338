@@ -1,3 +1,5 @@
+import javax.management.BadAttributeValueExpException;
+import java.security.InvalidParameterException;
 
 public class DataMatrix implements BarcodeIO
 {
@@ -17,14 +19,17 @@ public class DataMatrix implements BarcodeIO
       readText("undefined");
    }
 
-   public DataMatrix(BarcodeImage image)
+   public DataMatrix(BarcodeImage image) throws Exception
    {
-      if (scan(image));
+      if (!scan(image))
+         throw new Exception();
    }
 
-   public DataMatrix(String text)
+   public DataMatrix(String text) throws Exception
    {
-      if (readText(text));
+      if (!readText(text))
+         throw new Exception();
+
    }
 
    public boolean readText(String text)
@@ -119,8 +124,8 @@ public class DataMatrix implements BarcodeIO
    {
       this.text = "";
 
-      // Make sure the values are within range
-      if (actualHeight > 10)
+      // Make sure the values are within range, include spine
+      if (actualHeight > ASCII_BINARY_DIGITS + 2)
          return false;
 
       // Iterate through each column, concatenating the string with chars
