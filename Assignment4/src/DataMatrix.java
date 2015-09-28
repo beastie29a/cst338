@@ -4,6 +4,8 @@ public class DataMatrix implements BarcodeIO
 
    public static final char BLACK_CHAR = '*';
    public static final char WHITE_CHAR = ' ';
+   // Amount of digits in the binary representation of ASCII
+   public static final int ASCII_BINARY_DIGITS = 7;
    private BarcodeImage image;
    private String text;
    private int actualWidth, actualHeight;
@@ -17,14 +19,12 @@ public class DataMatrix implements BarcodeIO
 
    public DataMatrix(BarcodeImage image)
    {
-      if (scan(image))
-          System.out.print("Worked!");
+      if (scan(image));
    }
 
    public DataMatrix(String text)
    {
-      if (readText(text))
-         System.out.print("Worked!");
+      if (readText(text));
    }
 
    public boolean readText(String text)
@@ -88,10 +88,25 @@ public class DataMatrix implements BarcodeIO
    public boolean generateImageFromText()
    {
       this.image = new BarcodeImage();
-      // Iterate through each colum assigning the character
-      for ( int i = 0 ; i < text.length() ; i++)
+      this.actualWidth = text.length();
+      this.actualHeight = ASCII_BINARY_DIGITS;
+/*
+      // First create the border - at the top left of array [0][0]
+      for ( int i = 0 ; i < actualWidth ; i++)
       {
-         // Type cast char to in to get ASCII decimal represenation
+         for (int j = ASCII_BINARY_DIGITS; j >= 0; j++)
+         {
+            if (0 == j)
+               image.setPixel(i, j, true);
+            else if ( actualWidth == j && ())
+         }
+      }
+
+*/
+
+      // Iterate through each column assigning the character
+      for ( int i = 0 ; i < actualWidth ; i++)
+      {
          if (!WriteCharToCol(i, (int) text.charAt(i)))
             return false;
       }
@@ -171,6 +186,7 @@ public class DataMatrix implements BarcodeIO
       int row = image.MAX_HEIGHT - 2;
       int charDec = 0;
 
+      // Iterate through the column and add
       for ( int i = 0; i < getActualHeight() ; i++)
          if (image.getPixel(row--,col))
             charDec += Math.pow(2,i);
@@ -191,11 +207,19 @@ public class DataMatrix implements BarcodeIO
 
       // Covert the (int) char into a binary string
       String binaryString = Integer.toBinaryString(code);
+      int stringLength = binaryString.length();
+
+      // Fix any strings that are too short
+      while (stringLength < ASCII_BINARY_DIGITS)
+      {
+         binaryString = "0" + binaryString;
+         stringLength++;
+      }
 
       // Populate the matrix from bottom -> up
-      for ( int row = binaryString.length() ; row >= 0 ; row-- )
+      for ( int row = stringLength ; row > 0 ; row-- )
       {
-         if (binaryString.charAt(row) == '1')
+         if (binaryString.charAt(row - 1) == '1')
             image.setPixel(row, col, true);
       }
       return true;
@@ -203,12 +227,12 @@ public class DataMatrix implements BarcodeIO
 
    public void displayRawImage()
    {
-      // Something here
+      image.displayToConsole();
    }
 
    private void clearImage()
    {
-      // Something here
+      this.image = new BarcodeImage();
    }
 
 }
