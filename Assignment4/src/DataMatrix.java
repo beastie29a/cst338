@@ -19,17 +19,14 @@ public class DataMatrix implements BarcodeIO
       readText("undefined");
    }
 
-   public DataMatrix(BarcodeImage image) throws Exception
+   public DataMatrix(BarcodeImage image)
    {
-      if (!scan(image))
-         throw new Exception();
+      if (scan(image));
    }
 
-   public DataMatrix(String text) throws Exception
+   public DataMatrix(String text)
    {
-      if (!readText(text))
-         throw new Exception();
-
+      if (readText(text));
    }
 
    public boolean readText(String text)
@@ -94,6 +91,7 @@ public class DataMatrix implements BarcodeIO
    {
       this.image = new BarcodeImage();
       this.actualWidth = text.length();
+      this.actualHeight = ASCII_BINARY_DIGITS + 2;
 
       //Output Bottom spine (Bottom Closed Limitation Line) &
       //Output Top alternating black-white pattern border
@@ -102,26 +100,24 @@ public class DataMatrix implements BarcodeIO
          image.setPixel(actualHeight - 1 , i, true);
          if (i % 2 == 0)
             image.setPixel(actualHeight - 10, i, true);
+         // Iterate through each column assigning the character
+         if ( i > 0)
+         {
+            if (!WriteCharToCol(i, (int) text.charAt(i - 1)))
+               return false;
+         }
       }
 
       //Output Left spine (Left Closed Limitation Line) &
       //Output Right alternating black-white pattern border
-      for (int i = 0; i < actualWidth; i++)
+      for (int i = 0; i < actualHeight; i++)
       {
          image.setPixel(actualHeight - 1 - i, 0, true);
          if (i % 2 == 0)
-            image.setPixel(actualHeight - 1 - i, actualWidth, true);
+            image.setPixel(actualHeight - 1 - i, actualWidth + 1, true);
       }
 
-
-      // Iterate through each column assigning the character
-      for ( int i = 1 ; i < actualWidth ; i++)
-      {
-         if (!WriteCharToCol(i, (int) text.charAt(i-1)))
-            return false;
-      }
-
-      this.actualHeight = this.computeSignalHeight();
+      //this.actualHeight = this.computeSignalHeight();
       return true;
    }
 
@@ -149,7 +145,8 @@ public class DataMatrix implements BarcodeIO
    public void displayImageToConsole()
    {
       int col;
-      int endCol = getActualWidth();
+      // Array edge is 2 more than actualWidth
+      int endCol = actualWidth + 2;
 
       // Print top outline, 2 longer than the Barcode
       for ( int i = 0 ; i < endCol + 2; i++)
