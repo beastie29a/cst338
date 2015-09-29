@@ -19,17 +19,14 @@ public class DataMatrix implements BarcodeIO
       readText("undefined");
    }
 
-   public DataMatrix(BarcodeImage image) throws Exception
+   public DataMatrix(BarcodeImage image)
    {
-      if (!scan(image))
-         throw new Exception();
+      if (scan(image));
    }
 
-   public DataMatrix(String text) throws Exception
+   public DataMatrix(String text)
    {
-      if (!readText(text))
-         throw new Exception();
-
+      if (readText(text));
    }
 
    public boolean readText(String text)
@@ -77,7 +74,7 @@ public class DataMatrix implements BarcodeIO
 
       while (image.getPixel((image.MAX_HEIGHT - 1), columnWidth++)){}
       // Subtract the last while loop condition
-      return columnWidth - 1;
+      return columnWidth - 3;
    }
 
    private int computeSignalHeight()
@@ -113,7 +110,7 @@ public class DataMatrix implements BarcodeIO
 
       //Output Left spine (Left Closed Limitation Line) &
       //Output Right alternating black-white pattern border
-      for (int i = 0; i < actualHeight; i++)
+      for (int i = 0; i < actualHeight ; i++)
       {
          image.setPixel(actualHeight - 1 - i, 0, true);
          if (i % 2 == 0)
@@ -133,7 +130,7 @@ public class DataMatrix implements BarcodeIO
          return false;
 
       // Iterate through each column, concatenating the string with chars
-      for ( int i = 1 ; i < actualWidth - 1 ; i++)
+      for ( int i = 1 ; i <= actualWidth ; i++)
          this.text += readCharFromCol(i);
 
       return true;
@@ -141,7 +138,7 @@ public class DataMatrix implements BarcodeIO
 
    public void displayTextToConsole()
    {
-      System.out.println(text);
+      System.out.println("|*" + text + "*|");
    }
 
    // Assumes being called from a cleanImage() object
