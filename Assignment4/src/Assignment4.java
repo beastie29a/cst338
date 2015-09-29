@@ -88,14 +88,15 @@ public class Assignment4
       dm.readText("What a great resume builder this is!");
       dm.generateImageFromText();
       dm.displayTextToConsole();
-      dm.displayRawImage();
+//      dm.displayRawImage();
       dm.displayImageToConsole();
 
       DataMatrix dmTest = new DataMatrix("Testing the DataMatrix( text ) " +
          "constructor.");
       dmTest.displayTextToConsole();
       dmTest.generateImageFromText();
-      dmTest.displayRawImage();
+//      dmTest.displayRawImage();
+      dmTest.displayImageToConsole();
 
    }
 

@@ -1,3 +1,5 @@
+import javax.management.BadAttributeValueExpException;
+import java.security.InvalidParameterException;
 
 public class DataMatrix implements BarcodeIO
 {
@@ -5,7 +7,7 @@ public class DataMatrix implements BarcodeIO
    public static final char BLACK_CHAR = '*';
    public static final char WHITE_CHAR = ' ';
    // Amount of digits in the binary representation of ASCII
-   public static final int ASCII_BINARY_DIGITS = 7;
+   public static final int ASCII_BINARY_DIGITS = 8;
    private BarcodeImage image;
    private String text;
    private int actualWidth, actualHeight;
@@ -46,12 +48,12 @@ public class DataMatrix implements BarcodeIO
       }
       catch (CloneNotSupportedException exception)
       {
-        // Does nothing
+        return false;
       }
 
+      //      cleanImage();
       this.actualWidth = this.computeSignalWidth();
       this.actualHeight = this.computeSignalHeight();
-//      cleanImage();
       return true;
    }
 
@@ -87,31 +89,39 @@ public class DataMatrix implements BarcodeIO
 
    public boolean generateImageFromText()
    {
+      int textLength = text.length();
       this.image = new BarcodeImage();
-      this.actualWidth = text.length();
+      // Add 2 to textLength for the left/right border
+      this.actualWidth = textLength + 2;
+      // Add 2 to ASCII binary digit fields for the top/bottom border
+      this.actualHeight = ASCII_BINARY_DIGITS + 2;
 
-/*
-      // First create the border - at the top left of array [0][0]
-      for ( int i = 0 ; i < actualWidth ; i++)
+      //Output Bottom spine (Bottom Closed Limitation Line) &
+      //Output Top alternating black-white pattern border
+      for (int i = 0; i <= actualWidth; i++)
       {
-         for (int j = ASCII_BINARY_DIGITS; j >= 0; j++)
+         image.setPixel(actualHeight - 1 , i, true);
+         if (i % 2 == 0)
+            image.setPixel(actualHeight - 10, i, true);
+         // Begin to populate chars ro ASCII, actualWidth - 2 borders
+         if ( i > 0  && i <= textLength)
          {
-            if (0 == j)
-               image.setPixel(i, j, true);
-            else if ( actualWidth == j && ())
+            if (!WriteCharToCol(i, (int) text.charAt(i - 1)))
+               return false;
          }
       }
 
-*/
-
-      // Iterate through each column assigning the character
-      for ( int i = 0 ; i < actualWidth ; i++)
+      //Output Left spine (Left Closed Limitation Line) &
+      //Output Right alternating black-white pattern border
+      for (int i = 0; i < actualHeight ; i++)
       {
-         if (!WriteCharToCol(i, (int) text.charAt(i)))
-            return false;
+         // Subtract 1 to account for array offsets
+         image.setPixel((actualHeight - 1) - i, 0, true);
+         if (i % 2 == 0)
+            image.setPixel((actualHeight - 1) - i, (actualWidth - 1), true);
       }
 
-      this.actualHeight = this.computeSignalHeight();
+      //this.actualHeight = this.computeSignalHeight();
       return true;
    }
 
@@ -119,8 +129,8 @@ public class DataMatrix implements BarcodeIO
    {
       this.text = "";
 
-      // Make sure the values are within range
-      if (actualHeight > 10)
+      // Make sure the values are within range, include spine
+      if (actualHeight > ASCII_BINARY_DIGITS + 2)
          return false;
 
       // Iterate through each column, concatenating the string with chars
@@ -132,31 +142,31 @@ public class DataMatrix implements BarcodeIO
 
    public void displayTextToConsole()
    {
-      System.out.println(text);
+      System.out.println("|*" + text + "*|");
    }
 
    // Assumes being called from a cleanImage() object
    public void displayImageToConsole()
    {
       int col;
-      int endCol = getActualWidth();
 
       // Print top outline, 2 longer than the Barcode
-      for ( int i = 0 ; i < endCol + 2; i++)
+      for ( int i = 0 ; i < actualWidth + 2; i++)
          System.out.print("-");
 
       System.out.println();
 
       for ( int i = 0 ; i < image.MAX_HEIGHT ; i++)
       {
+         // position self at left side of array
          col = 0;
-         // Search for the first * on the left spine
+         // Search for the left spine
          if (image.getPixel(i, 0))
          {
-            // Left outline
+            // Begin left outline
             System.out.print("|");
-            // Got through each row to draw the barcode
-            for (; col < endCol; col++)
+            // Output to the console, row-by-row
+            for (; col < actualWidth ; col++)
             {
                if (image.getPixel(i, col))
                   System.out.print(BLACK_CHAR);
@@ -243,7 +253,7 @@ public class DataMatrix implements BarcodeIO
    private boolean WriteCharToCol(int col, int code)
    {
       // Make sure the column is withing our actual image width
-      if (col > getActualWidth() || col < 0)
+      if (col > actualWidth || col < 0)
          return false;
 
       // Make the sure code is in the extended ASCII table
