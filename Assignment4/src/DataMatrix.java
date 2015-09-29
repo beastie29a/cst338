@@ -101,8 +101,26 @@ public class DataMatrix implements BarcodeIO
             else if ( actualWidth == j && ())
          }
       }
-
 */
+
+      //Output Bottom spine (Bottom Closed Limitation Line) &
+      //Output Top alternating black-white pattern border
+      for (int i = 0; i < actualWidth; i++)
+      {
+         image.setPixel(actualHeight - 2 , i, true);
+         if (i % 2 == 0)
+            image.setPixel(actualHeight - 10, i, true);
+      }
+
+      //Output Left spine (Left Closed Limitation Line) &
+      //Output Right alternating black-white pattern border
+      for (int i = 0; i < actualWidth; i++)
+      {
+         image.setPixel(actualHeight - 2 - i, 0, true);
+         if (i % 2 == 0)
+            image.setPixel(actualHeight - 2 - i, actualWidth, true);
+      }
+
 
       // Iterate through each column assigning the character
       for ( int i = 0 ; i < actualWidth ; i++)
