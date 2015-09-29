@@ -5,7 +5,7 @@ public class DataMatrix implements BarcodeIO
    public static final char BLACK_CHAR = '*';
    public static final char WHITE_CHAR = ' ';
    // Amount of digits in the binary representation of ASCII
-   public static final int ASCII_BINARY_DIGITS = 7;
+   public static final int ASCII_BINARY_DIGITS = 8;
    private BarcodeImage image;
    private String text;
    private int actualWidth, actualHeight;
@@ -90,24 +90,29 @@ public class DataMatrix implements BarcodeIO
       this.image = new BarcodeImage();
       this.actualWidth = text.length();
 
-/*
-      // First create the border - at the top left of array [0][0]
-      for ( int i = 0 ; i < actualWidth ; i++)
+      //Output Bottom spine (Bottom Closed Limitation Line) &
+      //Output Top alternating black-white pattern border
+      for (int i = 0; i <= actualWidth; i++)
       {
-         for (int j = ASCII_BINARY_DIGITS; j >= 0; j++)
-         {
-            if (0 == j)
-               image.setPixel(i, j, true);
-            else if ( actualWidth == j && ())
-         }
+         image.setPixel(actualHeight - 1 , i, true);
+         if (i % 2 == 0)
+            image.setPixel(actualHeight - 10, i, true);
       }
 
-*/
+      //Output Left spine (Left Closed Limitation Line) &
+      //Output Right alternating black-white pattern border
+      for (int i = 0; i < actualWidth; i++)
+      {
+         image.setPixel(actualHeight - 1 - i, 0, true);
+         if (i % 2 == 0)
+            image.setPixel(actualHeight - 1 - i, actualWidth, true);
+      }
+
 
       // Iterate through each column assigning the character
-      for ( int i = 0 ; i < actualWidth ; i++)
+      for ( int i = 1 ; i < actualWidth ; i++)
       {
-         if (!WriteCharToCol(i, (int) text.charAt(i)))
+         if (!WriteCharToCol(i, (int) text.charAt(i-1)))
             return false;
       }
 
