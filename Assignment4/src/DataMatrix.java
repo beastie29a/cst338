@@ -19,14 +19,17 @@ public class DataMatrix implements BarcodeIO
       readText("undefined");
    }
 
-   public DataMatrix(BarcodeImage image)
+   public DataMatrix(BarcodeImage image) throws Exception
    {
-      if (scan(image));
+      if (!scan(image))
+         throw new Exception();
    }
 
-   public DataMatrix(String text)
+   public DataMatrix(String text) throws Exception
    {
-      if (readText(text));
+      if (!readText(text))
+         throw new Exception();
+
    }
 
    public boolean readText(String text)
