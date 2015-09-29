@@ -96,6 +96,7 @@ public class Assignment4
       dmTest.displayTextToConsole();
       dmTest.generateImageFromText();
       dmTest.displayRawImage();
+      dmTest.displayImageToConsole();
 
    }
 
