@@ -48,12 +48,12 @@ public class DataMatrix implements BarcodeIO
       }
       catch (CloneNotSupportedException exception)
       {
-        // Does nothing
+        return false;
       }
 
+      //      cleanImage();
       this.actualWidth = this.computeSignalWidth();
       this.actualHeight = this.computeSignalHeight();
-//      cleanImage();
       return true;
    }
 
@@ -74,7 +74,7 @@ public class DataMatrix implements BarcodeIO
 
       while (image.getPixel((image.MAX_HEIGHT - 1), columnWidth++)){}
       // Subtract the last while loop condition
-      return columnWidth - 3;
+      return columnWidth - 1;
    }
 
    private int computeSignalHeight()
@@ -89,8 +89,11 @@ public class DataMatrix implements BarcodeIO
 
    public boolean generateImageFromText()
    {
+      int textLength = text.length();
       this.image = new BarcodeImage();
-      this.actualWidth = text.length();
+      // Add 2 to textLength for the left/right border
+      this.actualWidth = textLength + 2;
+      // Add 2 to ASCII binary digit fields for the top/bottom border
       this.actualHeight = ASCII_BINARY_DIGITS + 2;
 
       //Output Bottom spine (Bottom Closed Limitation Line) &
@@ -100,8 +103,8 @@ public class DataMatrix implements BarcodeIO
          image.setPixel(actualHeight - 1 , i, true);
          if (i % 2 == 0)
             image.setPixel(actualHeight - 10, i, true);
-         // Iterate through each column assigning the character
-         if ( i > 0)
+         // Begin to populate chars ro ASCII, actualWidth - 2 borders
+         if ( i > 0  && i <= textLength)
          {
             if (!WriteCharToCol(i, (int) text.charAt(i - 1)))
                return false;
@@ -112,9 +115,10 @@ public class DataMatrix implements BarcodeIO
       //Output Right alternating black-white pattern border
       for (int i = 0; i < actualHeight ; i++)
       {
-         image.setPixel(actualHeight - 1 - i, 0, true);
+         // Subtract 1 to account for array offsets
+         image.setPixel((actualHeight - 1) - i, 0, true);
          if (i % 2 == 0)
-            image.setPixel(actualHeight - 1 - i, actualWidth + 1, true);
+            image.setPixel((actualHeight - 1) - i, (actualWidth - 1), true);
       }
 
       //this.actualHeight = this.computeSignalHeight();
@@ -130,7 +134,7 @@ public class DataMatrix implements BarcodeIO
          return false;
 
       // Iterate through each column, concatenating the string with chars
-      for ( int i = 1 ; i <= actualWidth ; i++)
+      for ( int i = 1 ; i < actualWidth - 1 ; i++)
          this.text += readCharFromCol(i);
 
       return true;
@@ -145,25 +149,24 @@ public class DataMatrix implements BarcodeIO
    public void displayImageToConsole()
    {
       int col;
-      // Array edge is 2 more than actualWidth
-      int endCol = actualWidth + 2;
 
       // Print top outline, 2 longer than the Barcode
-      for ( int i = 0 ; i < endCol + 2; i++)
+      for ( int i = 0 ; i < actualWidth + 2; i++)
          System.out.print("-");
 
       System.out.println();
 
       for ( int i = 0 ; i < image.MAX_HEIGHT ; i++)
       {
+         // position self at left side of array
          col = 0;
-         // Search for the first * on the left spine
+         // Search for the left spine
          if (image.getPixel(i, 0))
          {
-            // Left outline
+            // Begin left outline
             System.out.print("|");
-            // Got through each row to draw the barcode
-            for (; col < endCol; col++)
+            // Output to the console, row-by-row
+            for (; col < actualWidth ; col++)
             {
                if (image.getPixel(i, col))
                   System.out.print(BLACK_CHAR);
@@ -215,7 +218,7 @@ public class DataMatrix implements BarcodeIO
    private boolean WriteCharToCol(int col, int code)
    {
       // Make sure the column is withing our actual image width
-      if (col > getActualWidth() || col < 0)
+      if (col > actualWidth || col < 0)
          return false;
 
       // Make the sure code is in the extended ASCII table
