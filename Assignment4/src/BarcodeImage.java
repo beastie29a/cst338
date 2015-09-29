@@ -93,7 +93,7 @@ class BarcodeImage implements Cloneable {
         }
     }
     
-    public BarcodeImage clone(){
+    public BarcodeImage clone() throws CloneNotSupportedException{
         BarcodeImage clonedBarcodeImage = new BarcodeImage();
         for (int x=0;x<image_data.length;x++){
             for (int i=0;i<image_data[x].length;i++){
