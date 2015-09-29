@@ -5,7 +5,7 @@ public class DataMatrix implements BarcodeIO
    public static final char BLACK_CHAR = '*';
    public static final char WHITE_CHAR = ' ';
    // Amount of digits in the binary representation of ASCII
-   public static final int ASCII_BINARY_DIGITS = 7;
+   public static final int ASCII_BINARY_DIGITS = 8;
    private BarcodeImage image;
    private String text;
    private int actualWidth, actualHeight;
@@ -105,9 +105,9 @@ public class DataMatrix implements BarcodeIO
 
       //Output Bottom spine (Bottom Closed Limitation Line) &
       //Output Top alternating black-white pattern border
-      for (int i = 0; i < actualWidth; i++)
+      for (int i = 0; i <= actualWidth; i++)
       {
-         image.setPixel(actualHeight - 2 , i, true);
+         image.setPixel(actualHeight - 1 , i, true);
          if (i % 2 == 0)
             image.setPixel(actualHeight - 10, i, true);
       }
@@ -116,9 +116,9 @@ public class DataMatrix implements BarcodeIO
       //Output Right alternating black-white pattern border
       for (int i = 0; i < actualWidth; i++)
       {
-         image.setPixel(actualHeight - 2 - i, 0, true);
+         image.setPixel(actualHeight - 1 - i, 0, true);
          if (i % 2 == 0)
-            image.setPixel(actualHeight - 2 - i, actualWidth, true);
+            image.setPixel(actualHeight - 1 - i, actualWidth, true);
       }
 
 
