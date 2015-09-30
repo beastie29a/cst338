@@ -88,32 +88,20 @@ public class Assignment4
       dm.readText("What a great resume builder this is!");
       dm.generateImageFromText();
       dm.displayTextToConsole();
-//      dm.displayRawImage();
+      dm.displayRawImage();
       dm.displayImageToConsole();
 
       DataMatrix dmTest = new DataMatrix("Testing the DataMatrix( text ) " +
          "constructor.");
       dmTest.displayTextToConsole();
       dmTest.generateImageFromText();
-//      dmTest.displayRawImage();
+      dmTest.displayRawImage();
       dmTest.displayImageToConsole();
 
    }
 
    public static void testBarcodeImage(){
-/*
-      String[] testCode = new String[1950];
-      for (int x=0;x<1950;x++){
-         if (x%2==0){
-            testCode[x]=" ";
-         } else {
-            testCode[x]="*";
-         }
-      }
 
-      for (int x=0;x<1950;x++){
-         System.out.print(testCode[x]);
-      }*/
 	   
       String[] sImageIn =
           {
