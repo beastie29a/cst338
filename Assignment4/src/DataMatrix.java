@@ -98,7 +98,7 @@ public class DataMatrix implements BarcodeIO
 
       //Output Bottom spine (Bottom Closed Limitation Line) &
       //Output Top alternating black-white pattern border
-      for (int i = 0; i <= actualWidth; i++)
+      for (int i = 0; i < actualWidth; i++)
       {
          image.setPixel(actualHeight - 1 , i, true);
          if (i % 2 == 0)
