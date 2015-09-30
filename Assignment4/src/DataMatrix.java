@@ -51,7 +51,7 @@ public class DataMatrix implements BarcodeIO
         return false;
       }
 
-      //      cleanImage();
+      cleanImage();
       this.actualWidth = this.computeSignalWidth();
       this.actualHeight = this.computeSignalHeight();
       return true;
@@ -182,21 +182,91 @@ public class DataMatrix implements BarcodeIO
 
    private void cleanImage()
    {
-      // Something here
+	   
+	   moveImageToLowerLeft();
+	   
    }
 
    private void moveImageToLowerLeft()
    {
       // Something here
+
+       //find the top row of the code
+	   
+	   //boolean[][] imageData = new boolean[image.MAX_HEIGHT][image.MAX_WIDTH];
+	   int firstRow=0;
+	   int firstCol=0;
+	   int lastRow=0;
+	   int lastCol=0;
+	   
+	   outerloop:
+	   for (int row=0;row<image.MAX_HEIGHT;row++){
+		   for (int col=0;col<image.MAX_WIDTH;col++){
+			   if (image.getPixel(row, col)){
+				   firstRow=row;
+				   firstCol=col;
+				   break outerloop;
+			   }
+			   
+		   }
+	   } 
+	   
+	   outerloop2:
+	   if (image.getPixel(image.MAX_HEIGHT-1,firstCol)){
+		   lastRow=image.MAX_HEIGHT-1;
+	   } else{
+		   for (int i=firstRow;i<image.MAX_HEIGHT;i++){
+			   if (!image.getPixel(i,firstCol)){
+				   lastRow=firstRow+(i-1);
+			   }
+			   break outerloop2;
+		   }
+	   }
+	   
+	   outerloop3:
+	   for (int i=firstCol;i<image.MAX_WIDTH;i++){
+		   if (!image.getPixel(lastRow,i)){
+			   lastCol=firstCol+i;
+			   break outerloop3;
+		   }
+	   }
+	   
+
+	   if (lastRow!=image.MAX_HEIGHT-1){
+		   shiftImageDown(lastRow);
+	   } 
+
+	   if (firstCol!=0){
+		   shiftImageLeft(firstCol);
+	   } 
+	   //TODO: delete after testing
+	   System.out.println("first row is: " + firstRow);
+	   System.out.println("first col is: " + firstCol);
+	   System.out.println("last row is: " + lastRow);
+	   System.out.println("last col is: " + lastCol);
+	   
    }
 
    private void shiftImageDown(int offset)
    {
-      // Something here
+	   int currentRow=image.MAX_HEIGHT;
+	   for (int row=offset;row>=0;row--){
+		   for (int col=0;col<image.MAX_WIDTH;col++){
+			   image.setPixel(currentRow,col,image.getPixel(row,col));
+			   image.setPixel(row,col, false);
+		   }
+	   }
    }
+   
    private void shiftImageLeft(int offset)
    {
-      // Something here
+	   int currentCol=offset;
+	   for (int row=0;row<image.MAX_HEIGHT;row++){
+		   for (int col=currentCol;col>image.MAX_WIDTH;col++){
+			   image.setPixel(row,currentCol-col,image.getPixel(row,col));
+			   image.setPixel(row,col, false);
+		   }
+	   }
    }
 
    private char readCharFromCol(int col)
