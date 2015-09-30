@@ -7,7 +7,6 @@
  * @author Hyo Lee
  */
 
-import java.util.*;
 
 public class Assignment4
 {
