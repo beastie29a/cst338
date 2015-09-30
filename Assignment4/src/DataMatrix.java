@@ -122,6 +122,9 @@ public class DataMatrix implements BarcodeIO
       }
 
       //this.actualHeight = this.computeSignalHeight();
+      
+      cleanImage();
+      
       return true;
    }
 
@@ -182,18 +185,14 @@ public class DataMatrix implements BarcodeIO
 
    private void cleanImage()
    {
-	   
 	   moveImageToLowerLeft();
 	   
    }
 
    private void moveImageToLowerLeft()
    {
-      // Something here
 
-       //find the top row of the code
 	   
-	   //boolean[][] imageData = new boolean[image.MAX_HEIGHT][image.MAX_WIDTH];
 	   int firstRow=0;
 	   int firstCol=0;
 	   int lastRow=0;
@@ -211,27 +210,27 @@ public class DataMatrix implements BarcodeIO
 		   }
 	   } 
 	   
-	   outerloop2:
+	   
 	   if (image.getPixel(image.MAX_HEIGHT-1,firstCol)){
 		   lastRow=image.MAX_HEIGHT-1;
 	   } else{
+		   outerloop2:
 		   for (int i=firstRow;i<image.MAX_HEIGHT;i++){
 			   if (!image.getPixel(i,firstCol)){
-				   lastRow=firstRow+(i-1);
+				   lastRow=i;
+				   break outerloop2;
 			   }
-			   break outerloop2;
 		   }
 	   }
 	   
 	   outerloop3:
 	   for (int i=firstCol;i<image.MAX_WIDTH;i++){
 		   if (!image.getPixel(lastRow,i)){
-			   lastCol=firstCol+i;
+			   lastCol=i;
 			   break outerloop3;
 		   }
 	   }
 	   
-
 	   if (lastRow!=image.MAX_HEIGHT-1){
 		   shiftImageDown(lastRow);
 	   } 
@@ -239,12 +238,12 @@ public class DataMatrix implements BarcodeIO
 	   if (firstCol!=0){
 		   shiftImageLeft(firstCol);
 	   } 
-	   //TODO: delete after testing
+/*
 	   System.out.println("first row is: " + firstRow);
 	   System.out.println("first col is: " + firstCol);
 	   System.out.println("last row is: " + lastRow);
 	   System.out.println("last col is: " + lastCol);
-	   
+	   */
    }
 
    private void shiftImageDown(int offset)
@@ -255,6 +254,7 @@ public class DataMatrix implements BarcodeIO
 			   image.setPixel(currentRow,col,image.getPixel(row,col));
 			   image.setPixel(row,col, false);
 		   }
+		   currentRow--;
 	   }
    }
    
