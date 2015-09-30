@@ -103,4 +103,5 @@ class BarcodeImage implements Cloneable {
         
         return clonedBarcodeImage;
     }
+    
 }
