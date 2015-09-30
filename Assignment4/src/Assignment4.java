@@ -635,7 +635,6 @@ class DataMatrix implements BarcodeIO
    {
       this.image = new BarcodeImage();
    }
-
 }
 
 /********************** Test Run ***********************
