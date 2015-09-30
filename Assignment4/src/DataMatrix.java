@@ -191,8 +191,6 @@ public class DataMatrix implements BarcodeIO
 
    private void moveImageToLowerLeft()
    {
-
-	   
 	   int firstRow=0;
 	   int firstCol=0;
 	   int lastRow=0;
@@ -238,12 +236,6 @@ public class DataMatrix implements BarcodeIO
 	   if (firstCol!=0){
 		   shiftImageLeft(firstCol);
 	   } 
-/*
-	   System.out.println("first row is: " + firstRow);
-	   System.out.println("first col is: " + firstCol);
-	   System.out.println("last row is: " + lastRow);
-	   System.out.println("last col is: " + lastCol);
-	   */
    }
 
    private void shiftImageDown(int offset)
