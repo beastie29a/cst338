@@ -43,7 +43,6 @@ public class Assignment4
                   "                                               ",
                   "                                               ",
                   "                                               "
-
             };
 
       String[] sImageIn_2 =
@@ -97,13 +96,10 @@ public class Assignment4
       dmTest.generateImageFromText();
       dmTest.displayImageToConsole();
       //dmTest.displayRawImage();
-
    }
 
    public static void testBarcodeImage()
    {
-
-
       String[] sImageIn =
             {
                   "                                               ",
@@ -132,7 +128,6 @@ public class Assignment4
 
       System.out.println();
    }
-
 }
 
 interface BarcodeIO
@@ -152,7 +147,6 @@ interface BarcodeIO
 
 class BarcodeImage implements Cloneable
 {
-
    public static final int MAX_HEIGHT = 30;
    public static final int MAX_WIDTH = 65;
    public static final int MAX_LENGTH = MAX_HEIGHT * MAX_WIDTH;
@@ -296,7 +290,6 @@ class BarcodeImage implements Cloneable
 
 class DataMatrix implements BarcodeIO
 {
-
    public static final char BLACK_CHAR = '*';
    public static final char WHITE_CHAR = ' ';
    // Amount of digits in the binary representation of ASCII
