@@ -12,6 +12,7 @@ public class DataMatrix implements BarcodeIO
    private String text;
    private int actualWidth, actualHeight;
 
+   // Default constructor to setup initial empty image
    public DataMatrix()
    {
       this.image = new BarcodeImage();
@@ -19,16 +20,19 @@ public class DataMatrix implements BarcodeIO
       readText("undefined");
    }
 
+   // Set up for scan and move image to the lower left corner
    public DataMatrix(BarcodeImage image)
    {
       if (scan(image));
    }
 
+   // Set up to read text string from mutator
    public DataMatrix(String text)
    {
       if (readText(text));
    }
 
+   // Mutator to feed constructor for string
    public boolean readText(String text)
    {
       if (text.length() < image.MAX_WIDTH)
@@ -40,6 +44,8 @@ public class DataMatrix implements BarcodeIO
       return false;
    }
 
+   // Mutator to feed image constructor, clone image, set actual dimensions,
+   // and feed scan in constructor to move image to lower left corner
    public boolean scan(BarcodeImage image)
    {
       try
@@ -57,6 +63,7 @@ public class DataMatrix implements BarcodeIO
       return true;
    }
 
+   // Accessors
    public int getActualWidth()
    {
       return this.actualWidth;
@@ -67,6 +74,7 @@ public class DataMatrix implements BarcodeIO
       return this.actualHeight;
    }
 
+   // Account for spines for actual dimensions
    private int computeSignalWidth()
    {
 
@@ -87,6 +95,7 @@ public class DataMatrix implements BarcodeIO
       return signalHeight - 1;
    }
 
+   // Create image, Closed Limitation lines and alternating borders
    public boolean generateImageFromText()
    {
       int textLength = text.length();
@@ -183,6 +192,7 @@ public class DataMatrix implements BarcodeIO
       }
    }
 
+   // Move image to lower left with helper methods
    private void cleanImage()
    {
 	   moveImageToLowerLeft();
@@ -261,6 +271,7 @@ public class DataMatrix implements BarcodeIO
 	   }
    }
 
+   // Helper method to translate image to text
    private char readCharFromCol(int col)
    {
       // Initially position row at the ones row

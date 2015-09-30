@@ -1,3 +1,4 @@
+// Implemented in DataMatrix
 public interface BarcodeIO
 {
    public boolean scan(BarcodeImage bc);

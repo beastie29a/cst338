@@ -48,7 +48,8 @@ class BarcodeImage implements Cloneable {
         	}
         }
     }
-    
+
+    // Accessor for row and column of image
     public boolean getPixel(int row, int col){
         
         if (isValid(row, col)){
@@ -57,7 +58,8 @@ class BarcodeImage implements Cloneable {
         return false;
         
     }
-    
+
+    // Mutator for row and column of image
     public boolean setPixel(int row, int col, boolean value){
         if (isValid(row, col)){
             image_data[row][col]=value;
@@ -65,21 +67,24 @@ class BarcodeImage implements Cloneable {
         }
         return false;
     }
-    
+
+    // Validation of array size
     private boolean isValid(int row, int col){
         if ((row>=0 && row<MAX_HEIGHT) && (col>=0 && col<MAX_WIDTH)){
             return true;
         }
         return false;
     }
-    
+
+    // Validation of String size
     private boolean checkSize(String[] data){
     	if (data.length<=MAX_LENGTH && data.length>=0){
     		return true;
     	}
         return false;
     }
-    
+
+    // Debugging check
     public void displayToConsole(){
         for (int x=0;x<image_data.length;x++){
             for (int i=0;i<image_data[x].length;i++){
@@ -92,7 +97,8 @@ class BarcodeImage implements Cloneable {
             System.out.println();
         }
     }
-    
+
+    // Override BarcodeImage
     public BarcodeImage clone() throws CloneNotSupportedException{
         BarcodeImage clonedBarcodeImage = new BarcodeImage();
         for (int x=0;x<image_data.length;x++){
@@ -103,5 +109,4 @@ class BarcodeImage implements Cloneable {
         
         return clonedBarcodeImage;
     }
-    
 }
