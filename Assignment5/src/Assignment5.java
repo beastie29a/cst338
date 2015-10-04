@@ -56,7 +56,7 @@ public class Assignment5
        
        //humanLabels = new JLabel[NUM_CARDS_PER_HAND];
        for (k = 0; k < NUM_CARDS_PER_HAND; k++)
-           humanLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard(myDeck)));
+           humanLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard()));
    
        // ADD LABELS TO PANELS -----------------------------------------
        //code goes here ...
@@ -118,16 +118,20 @@ public class Assignment5
        
        
     //}
-    
-   //TODO: make this random without dealing
-   //remove deck param
+
+   // Find a random Suit and Value and instantiates a new Card
    private static Card generateRandomCard()
    {
-      Card rndCard = new Card();
       Random rnd = new Random();
 
+      // Setup Random Suit
+      Card.Suit rndSuit =
+         Card.Suit.values()[rnd.nextInt(Card.Suit.values().length)];
 
-      return rndCard;
+      // Setup Random Value
+      char rndValue = Card.Value[rnd.nextInt(Card.Value.length)];
+
+      return new Card(rndValue, rndSuit);
    }
 
 }
