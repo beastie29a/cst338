@@ -119,11 +119,16 @@ public class Assignment5
        
     //}
     
-    //TODO: make this random without dealing
-    //remove deck param
-    private static Card generateRandomCard(Deck testDeck){
-        return testDeck.dealCard();
-    }
+   //TODO: make this random without dealing
+   //remove deck param
+   private static Card generateRandomCard()
+   {
+      Card rndCard = new Card();
+      Random rnd = new Random();
+
+
+      return rndCard;
+   }
 
 }
 
@@ -290,24 +295,28 @@ class Card
    {
       errorFlag = !set(value, suit);
    }
-   
-   static void arraySort(Card[] cards, int arraySize){
-       int j;
-       boolean swap = true;   // set flag to true to begin first pass
-       Card temp;   //holding variable
 
-       while ( swap ) {
-           swap = false;    //set flag to false awaiting a possible swap
-              for( j=0;  j < arraySize -1;  j++ ) {
-                     if ( (Arrays.asList(valueRanks).indexOf(cards[ j ].getchar())) >
-                          (Arrays.asList(valueRanks).indexOf(cards[ j+1 ].getchar())) ) {
-                             temp = cards[ j ];   //swap elements
-                             cards[ j ] = cards[ j+1 ];
-                             cards[ j+1 ] = temp;
-                             swap = true;    //shows a swap occurred  
-                    } 
-              } 
-        } 
+   static void arraySort(Card[] cards, int arraySize)
+   {
+      int j;
+      boolean swap = true;   // set flag to true to begin first pass
+      Card temp;   //holding variable
+
+      while (swap)
+      {
+         swap = false;    //set flag to false awaiting a possible swap
+         for (j = 0; j < arraySize - 1; j++)
+         {
+            if ((Arrays.asList(valueRanks).indexOf(cards[j].getchar())) >
+                  (Arrays.asList(valueRanks).indexOf(cards[j + 1].getchar())))
+            {
+               temp = cards[j];   //swap elements
+               cards[j] = cards[j + 1];
+               cards[j + 1] = temp;
+               swap = true;    //shows a swap occurred
+            }
+         }
+      }
    }
    
    // Output message - invalid or display card
@@ -598,39 +607,46 @@ class Deck
       }
       return testCard;
    }
-   
+
    //make sure that there are not too many instances of the card in the deck if you add it.
    //Return false if there will be too many.  It should put the card on the top of the deck.
-   public boolean addCard(Card card){
-       if (Arrays.asList(cards).indexOf(card)>0){
-           int openElement=0;
-           for (int x=0;x<cards.length;x++){
-               if (cards[x] == null){
-                   openElement=x;
-                   break;
-               }
-           }
-           cards[openElement]=card;
-           topCard=openElement;
-           return true;
-       }
-       return false;
+   public boolean addCard(Card card)
+   {
+      if (Arrays.asList(cards).indexOf(card) > 0)
+      {
+         int openElement = 0;
+         for (int x = 0; x < cards.length; x++)
+         {
+            if (cards[x] == null)
+            {
+               openElement = x;
+               break;
+            }
+         }
+         cards[openElement] = card;
+         topCard = openElement;
+         return true;
+      }
+      return false;
    }
-   
-   
+
+
    //you are looking to remove a specific card from the deck.
    //Put the current top card into its place.
    //Be sure the card you need is actually still in the deck, if not return false.
-   public boolean removeCard(Card card) {
-       int index=Arrays.asList(cards).indexOf(card);
-       if (index>0){
-           Card cardCopy = new Card(cards[topCard].getchar(), cards[topCard].getSuit());
-           cards[index]=cardCopy;
-           cards[topCard]=null;
-           topCard--;
-           return true;
-       }
-       return false;
+   public boolean removeCard(Card card)
+   {
+      int index = Arrays.asList(cards).indexOf(card);
+      if (index > 0)
+      {
+         Card cardCopy = new Card(cards[topCard].getchar(),
+            cards[topCard].getSuit());
+         cards[index] = cardCopy;
+         cards[topCard] = null;
+         topCard--;
+         return true;
+      }
+      return false;
    }
    
    //put all of the cards in the deck back into the right order according to their values.
