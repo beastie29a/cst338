@@ -8,6 +8,7 @@
  */
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class Assignment5
     
     static final int NUM_CARD_IMAGES = 56; // 52 + 4 jokers
     //static Icon[] icon = new ImageIcon[NUM_CARD_IMAGES];
-    
+
     public static void main(String[] args)
     {
        int k;
@@ -31,19 +32,27 @@ public class Assignment5
        //System.out.println(Arrays.asList(Card.Value).indexOf("A"));
        //System.out.println(Card.Value[0]);
        
-       Deck myDeck = new Deck();
+       //Deck myDeck = new Deck();
        
        GUICard cardGUI = new GUICard();
        
        // establish main frame in which program will run
        CardTable myCardTable 
           = new CardTable("CardTable", NUM_CARDS_PER_HAND, NUM_PLAYERS);
+
+
+       //myCardTable.pnlComputerHand.
        myCardTable.setSize(800, 600);
        myCardTable.setLocationRelativeTo(null);
        myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-       // show everything to the user
-       myCardTable.setVisible(true);
+       myCardTable.pnlComputerHand.setBorder(
+          BorderFactory.createTitledBorder("Computer Hand"));
+       myCardTable.pnlHumanHand.setBorder(
+          BorderFactory.createTitledBorder("Your Hand"));
+       myCardTable.pnlPlayArea.setBorder(
+          BorderFactory.createTitledBorder("Playing Area"));
+       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
 
        // CREATE LABELS ----------------------------------------------------
        
@@ -56,25 +65,45 @@ public class Assignment5
        
        //humanLabels = new JLabel[NUM_CARDS_PER_HAND];
        for (k = 0; k < NUM_CARDS_PER_HAND; k++)
-           humanLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard(myDeck)));
-   
+           humanLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard()));
+
+       for (k = 0; k < NUM_PLAYERS; k++)
+       {
+          playedCardLabels[k] = new JLabel(
+             cardGUI.getIcon(generateRandomCard()), JLabel.CENTER);
+          if ( 0 == k )
+          {
+             playLabelText[k] = new JLabel("Computer", JLabel.CENTER);
+          }
+          else
+          {
+             playLabelText[k] = new JLabel("You", JLabel.CENTER);
+          }
+
+       }
+
        // ADD LABELS TO PANELS -----------------------------------------
        //code goes here ...
-       
+
        for (k = 0; k < NUM_CARDS_PER_HAND; k++)
            myCardTable.pnlComputerHand.add(computerLabels[k]);
        
        for (k = 0; k < NUM_CARDS_PER_HAND; k++)
            myCardTable.pnlHumanHand.add(humanLabels[k]);
-       // and two random cards in the play region (simulating a computer/hum ply)
-       //code goes here ...
 
+       for (k = 0; k < NUM_PLAYERS; k++)
+       {
+          myCardTable.pnlPlayArea.add(playedCardLabels[k]);
+       }
+
+       for (k = 0; k < NUM_PLAYERS; k++)
+       {
+          myCardTable.pnlPlayArea.add(playLabelText[k]);
+       }
        // show everything to the user
        myCardTable.setVisible(true);
     }
-    
-    
- // static for the 57 icons and their corresponding labels
+    // static for the 57 icons and their corresponding labels
     // normally we would not have a separate label for each card, but
     // if we want to display all at once using labels, we need to.
     
@@ -118,12 +147,21 @@ public class Assignment5
        
        
     //}
-    
-    //TODO: make this random without dealing
-    //remove deck param
-    private static Card generateRandomCard(Deck testDeck){
-        return testDeck.dealCard();
-    }
+
+   // Find a random Suit and Value and instantiates a new Card
+   private static Card generateRandomCard()
+   {
+      Random rnd = new Random();
+
+      // Setup Random Suit
+      Card.Suit rndSuit =
+         Card.Suit.values()[rnd.nextInt(Card.Suit.values().length)];
+
+      // Setup Random Value
+      char rndValue = Card.Value[rnd.nextInt(Card.Value.length)];
+
+      return new Card(rndValue, rndSuit);
+   }
 
 }
 
@@ -142,22 +180,22 @@ class CardTable extends JFrame {
         setSize(1150, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        //setLayout(new BorderLayout());
         JPanel mainPanel = new JPanel();
         pnlComputerHand = new JPanel();
         pnlHumanHand = new JPanel();
         pnlPlayArea = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,3));
-        
-        //TODO: remove background color after testing
+        mainPanel.setLayout(new GridLayout(3,1));
+
+        /*TODO: remove background color after testing
         pnlComputerHand.setBackground(Color.GRAY);
         pnlHumanHand.setBackground(Color.WHITE);
         pnlPlayArea.setBackground(Color.BLUE);
-        //-----
-        
-        mainPanel.add(pnlHumanHand);
-        mainPanel.add(pnlPlayArea);
+        ----- */
+
         mainPanel.add(pnlComputerHand);
+        mainPanel.add(pnlPlayArea);
+        mainPanel.add(pnlHumanHand);
         add(mainPanel, BorderLayout.CENTER);
     }
     
@@ -290,24 +328,28 @@ class Card
    {
       errorFlag = !set(value, suit);
    }
-   
-   static void arraySort(Card[] cards, int arraySize){
-       int j;
-       boolean swap = true;   // set flag to true to begin first pass
-       Card temp;   //holding variable
 
-       while ( swap ) {
-           swap = false;    //set flag to false awaiting a possible swap
-              for( j=0;  j < arraySize -1;  j++ ) {
-                     if ( (Arrays.asList(valueRanks).indexOf(cards[ j ].getchar())) >
-                          (Arrays.asList(valueRanks).indexOf(cards[ j+1 ].getchar())) ) {
-                             temp = cards[ j ];   //swap elements
-                             cards[ j ] = cards[ j+1 ];
-                             cards[ j+1 ] = temp;
-                             swap = true;    //shows a swap occurred  
-                    } 
-              } 
-        } 
+   static void arraySort(Card[] cards, int arraySize)
+   {
+      int j;
+      boolean swap = true;   // set flag to true to begin first pass
+      Card temp;   //holding variable
+
+      while (swap)
+      {
+         swap = false;    //set flag to false awaiting a possible swap
+         for (j = 0; j < arraySize - 1; j++)
+         {
+            if ((Arrays.asList(valueRanks).indexOf(cards[j].getchar())) >
+                  (Arrays.asList(valueRanks).indexOf(cards[j + 1].getchar())))
+            {
+               temp = cards[j];   //swap elements
+               cards[j] = cards[j + 1];
+               cards[j + 1] = temp;
+               swap = true;    //shows a swap occurred
+            }
+         }
+      }
    }
    
    // Output message - invalid or display card
@@ -598,39 +640,46 @@ class Deck
       }
       return testCard;
    }
-   
+
    //make sure that there are not too many instances of the card in the deck if you add it.
    //Return false if there will be too many.  It should put the card on the top of the deck.
-   public boolean addCard(Card card){
-       if (Arrays.asList(cards).indexOf(card)>0){
-           int openElement=0;
-           for (int x=0;x<cards.length;x++){
-               if (cards[x] == null){
-                   openElement=x;
-                   break;
-               }
-           }
-           cards[openElement]=card;
-           topCard=openElement;
-           return true;
-       }
-       return false;
+   public boolean addCard(Card card)
+   {
+      if (Arrays.asList(cards).indexOf(card) > 0)
+      {
+         int openElement = 0;
+         for (int x = 0; x < cards.length; x++)
+         {
+            if (cards[x] == null)
+            {
+               openElement = x;
+               break;
+            }
+         }
+         cards[openElement] = card;
+         topCard = openElement;
+         return true;
+      }
+      return false;
    }
-   
-   
+
+
    //you are looking to remove a specific card from the deck.
    //Put the current top card into its place.
    //Be sure the card you need is actually still in the deck, if not return false.
-   public boolean removeCard(Card card) {
-       int index=Arrays.asList(cards).indexOf(card);
-       if (index>0){
-           Card cardCopy = new Card(cards[topCard].getchar(), cards[topCard].getSuit());
-           cards[index]=cardCopy;
-           cards[topCard]=null;
-           topCard--;
-           return true;
-       }
-       return false;
+   public boolean removeCard(Card card)
+   {
+      int index = Arrays.asList(cards).indexOf(card);
+      if (index > 0)
+      {
+         Card cardCopy = new Card(cards[topCard].getchar(),
+            cards[topCard].getSuit());
+         cards[index] = cardCopy;
+         cards[topCard] = null;
+         topCard--;
+         return true;
+      }
+      return false;
    }
    
    //put all of the cards in the deck back into the right order according to their values.
