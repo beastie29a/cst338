@@ -1,11 +1,17 @@
+/**
+ * CST 338 - Fall 2015 Session A
+ * Assignment 5, GUI Cards - High Card
+ * Phase I
+ *
+ * @author Robert Contreras
+ * @author Ryan Doherty
+ * @author Hyo Lee
+ */
+
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by Me on 10/2/2015.
- */
-
-
+//Phase I -- Display all card images using labesl
 public class Assignment5
 {
    // Static for 57 icons and their corresponding labels
@@ -94,4 +100,3 @@ public class Assignment5
       frmMyWindow.setVisible(true);
    }
 }
-
