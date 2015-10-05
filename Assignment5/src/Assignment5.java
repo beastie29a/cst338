@@ -8,6 +8,7 @@
  */
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class Assignment5
     
     static final int NUM_CARD_IMAGES = 56; // 52 + 4 jokers
     //static Icon[] icon = new ImageIcon[NUM_CARD_IMAGES];
-    
+
     public static void main(String[] args)
     {
        int k;
@@ -31,13 +32,20 @@ public class Assignment5
        //System.out.println(Arrays.asList(Card.Value).indexOf("A"));
        //System.out.println(Card.Value[0]);
        
-       Deck myDeck = new Deck();
+       //Deck myDeck = new Deck();
        
        GUICard cardGUI = new GUICard();
        
        // establish main frame in which program will run
        CardTable myCardTable 
           = new CardTable("CardTable", NUM_CARDS_PER_HAND, NUM_PLAYERS);
+
+       myCardTable.pnlComputerHand.setBorder(BorderFactory.createTitledBorder("Computer Hand"));
+       myCardTable.pnlHumanHand.setBorder(BorderFactory.createTitledBorder("Your Hand"));
+       myCardTable.pnlPlayArea.setBorder(BorderFactory.createTitledBorder("Computer Hand"));
+       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
+
+       //myCardTable.pnlComputerHand.
        myCardTable.setSize(800, 600);
        myCardTable.setLocationRelativeTo(null);
        myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,11 +67,23 @@ public class Assignment5
            humanLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard()));
 
        for (k = 0; k < NUM_PLAYERS; k++)
-           playedCardLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard()));
-   
+       {
+          playedCardLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard()), JLabel.CENTER);
+          if ( 0 == k )
+          {
+             playLabelText[k] = new JLabel("Computer", JLabel.CENTER);
+          }
+          else
+          {
+             playLabelText[k] = new JLabel("You", JLabel.CENTER);
+          }
+
+       }
+
+
        // ADD LABELS TO PANELS -----------------------------------------
        //code goes here ...
-       
+
        for (k = 0; k < NUM_CARDS_PER_HAND; k++)
            myCardTable.pnlComputerHand.add(computerLabels[k]);
        
@@ -71,7 +91,14 @@ public class Assignment5
            myCardTable.pnlHumanHand.add(humanLabels[k]);
 
        for (k = 0; k < NUM_PLAYERS; k++)
+       {
           myCardTable.pnlPlayArea.add(playedCardLabels[k]);
+       }
+
+       for (k = 0; k < NUM_PLAYERS; k++)
+       {
+          myCardTable.pnlPlayArea.add(playLabelText[k]);
+       }
 
        // show everything to the user
        myCardTable.setVisible(true);
@@ -161,12 +188,13 @@ class CardTable extends JFrame {
         pnlHumanHand = new JPanel();
         pnlPlayArea = new JPanel();
         mainPanel.setLayout(new GridLayout(3,1));
+
         
-        //TODO: remove background color after testing
+        /*TODO: remove background color after testing
         pnlComputerHand.setBackground(Color.GRAY);
         pnlHumanHand.setBackground(Color.WHITE);
         pnlPlayArea.setBackground(Color.BLUE);
-        //-----
+        ----- */
 
         mainPanel.add(pnlComputerHand);
         mainPanel.add(pnlPlayArea);
