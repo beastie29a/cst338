@@ -40,18 +40,19 @@ public class Assignment5
        CardTable myCardTable 
           = new CardTable("CardTable", NUM_CARDS_PER_HAND, NUM_PLAYERS);
 
-       myCardTable.pnlComputerHand.setBorder(BorderFactory.createTitledBorder("Computer Hand"));
-       myCardTable.pnlHumanHand.setBorder(BorderFactory.createTitledBorder("Your Hand"));
-       myCardTable.pnlPlayArea.setBorder(BorderFactory.createTitledBorder("Computer Hand"));
-       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
 
        //myCardTable.pnlComputerHand.
        myCardTable.setSize(800, 600);
        myCardTable.setLocationRelativeTo(null);
        myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-       // show everything to the user
-       myCardTable.setVisible(true);
+       myCardTable.pnlComputerHand.setBorder(
+          BorderFactory.createTitledBorder("Computer Hand"));
+       myCardTable.pnlHumanHand.setBorder(
+          BorderFactory.createTitledBorder("Your Hand"));
+       myCardTable.pnlPlayArea.setBorder(
+          BorderFactory.createTitledBorder("Playing Area"));
+       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
 
        // CREATE LABELS ----------------------------------------------------
        
@@ -68,7 +69,8 @@ public class Assignment5
 
        for (k = 0; k < NUM_PLAYERS; k++)
        {
-          playedCardLabels[k] = new JLabel(cardGUI.getIcon(generateRandomCard()), JLabel.CENTER);
+          playedCardLabels[k] = new JLabel(
+             cardGUI.getIcon(generateRandomCard()), JLabel.CENTER);
           if ( 0 == k )
           {
              playLabelText[k] = new JLabel("Computer", JLabel.CENTER);
@@ -79,7 +81,6 @@ public class Assignment5
           }
 
        }
-
 
        // ADD LABELS TO PANELS -----------------------------------------
        //code goes here ...
@@ -99,13 +100,10 @@ public class Assignment5
        {
           myCardTable.pnlPlayArea.add(playLabelText[k]);
        }
-
        // show everything to the user
        myCardTable.setVisible(true);
     }
-    
-    
- // static for the 57 icons and their corresponding labels
+    // static for the 57 icons and their corresponding labels
     // normally we would not have a separate label for each card, but
     // if we want to display all at once using labels, we need to.
     
@@ -182,14 +180,13 @@ class CardTable extends JFrame {
         setSize(1150, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        //setLayout(new BorderLayout());
         JPanel mainPanel = new JPanel();
         pnlComputerHand = new JPanel();
         pnlHumanHand = new JPanel();
         pnlPlayArea = new JPanel();
         mainPanel.setLayout(new GridLayout(3,1));
 
-        
         /*TODO: remove background color after testing
         pnlComputerHand.setBackground(Color.GRAY);
         pnlHumanHand.setBackground(Color.WHITE);
