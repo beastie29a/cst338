@@ -23,6 +23,8 @@ public class Assignment5
    static JLabel[] playedCardLabels = new JLabel[NUM_PLAYERS];
    static JLabel[] playLabelText = new JLabel[NUM_PLAYERS];
 
+   static JButton[] humanCardButtons = new JButton[NUM_CARDS_PER_HAND];
+   
    static final int NUM_CARD_IMAGES = 56; // 52 + 4 jokers
    //static Icon[] icon = new ImageIcon[NUM_CARD_IMAGES];
 
@@ -83,7 +85,10 @@ public class Assignment5
       //humanLabels = new JLabel[NUM_CARDS_PER_HAND];
       for (k = 0; k < NUM_CARDS_PER_HAND; k++)
          humanLabels[k] = new JLabel(cardGUI.getIcon(humanHand.inspectCard(k)));
-
+      
+      for (k = 0; k < NUM_CARDS_PER_HAND; k++)
+    	  humanCardButtons[k] = new JButton("",cardGUI.getIcon(humanHand.inspectCard(k)));
+      
       for (k = 0; k < NUM_PLAYERS; k++)
       {
          playedCardLabels[k] = new JLabel(
@@ -101,8 +106,14 @@ public class Assignment5
       for (k = 0; k < NUM_CARDS_PER_HAND; k++)
          myCardTable.pnlComputerHand.add(computerLabels[k]);
 
-      for (k = 0; k < NUM_CARDS_PER_HAND; k++)
-         myCardTable.pnlHumanHand.add(humanLabels[k]);
+      //for (k = 0; k < NUM_CARDS_PER_HAND; k++){
+      //    myCardTable.pnlHumanHand.add(humanLabels[k]);
+      //}
+      
+      for (k = 0; k < NUM_CARDS_PER_HAND; k++){
+    	  //TODO: remove + k after testing
+    	  myCardTable.pnlHumanHand.add(humanCardButtons[k]);
+      }
 
       for (k = 0; k < NUM_PLAYERS; k++)
       {
@@ -140,14 +151,9 @@ class CardTable extends JFrame
       JPanel mainPanel = new JPanel();
       pnlComputerHand = new JPanel();
       pnlHumanHand = new JPanel();
+      //pnlHumanHand.setLayout(new GridLayout(2, 1));
       pnlPlayArea = new JPanel();
       mainPanel.setLayout(new GridLayout(3, 1));
-
-        /*TODO: remove background color after testing
-        pnlComputerHand.setBackground(Color.GRAY);
-        pnlHumanHand.setBackground(Color.WHITE);
-        pnlPlayArea.setBackground(Color.BLUE);
-        ----- */
 
       mainPanel.add(pnlComputerHand);
       mainPanel.add(pnlPlayArea);
