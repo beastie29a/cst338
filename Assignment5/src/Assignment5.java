@@ -171,7 +171,10 @@ public class Assignment5
 	    		    	loop:
 	    		    	for (int x=0;x<NUM_CARDS_PER_HAND;x++){
 	    		    		if ((JButton) e.getSource()==humanCardButtons[x]){
+	    		    			clearPlayArea();
 	    		    			playCard(humanHand.inspectCard(x));
+	    		    			computerPlayCard(humanHand.inspectCard(x));
+	    		    			addCardsToPlayArea();
 	    		    			break loop;
 	    		    		}
 	    		    	}
@@ -212,9 +215,22 @@ public class Assignment5
 	      }
 	      refreshPlayArea();
    }
+
+   public static void addCardsToPlayArea(){
+          
+	      for (int k = 0; k < NUM_PLAYERS; k++)
+	      {
+	          myCardTable.pnlPlayArea.add(playedCardLabels[k]);
+	      }
+	      for (int k = 0; k < NUM_PLAYERS; k++)
+	      {
+	          myCardTable.pnlPlayArea.add(playLabelText[k]);
+	      }
+	      refreshPlayArea();
+   }
    
    public static void playCard(Card card){
-	   	  clearPlayArea();
+	   	  
 	   	  //TODO: Adjust this after computer's turn code
 
 	      //for (int k = 0; k < NUM_PLAYERS; k++)
@@ -223,16 +239,35 @@ public class Assignment5
 	               cardGUI.getIcon(card), JLabel.CENTER);
 	         
 	         playLabelText[1] = new JLabel("You", JLabel.CENTER);
-	  	     myCardTable.pnlPlayArea.add(playedCardLabels[1]);
-	  	     myCardTable.pnlPlayArea.add(playLabelText[1]);
+	  	     //myCardTable.pnlPlayArea.add(playedCardLabels[1]);
+	  	     //myCardTable.pnlPlayArea.add(playLabelText[1]);
 	  	    //}
 	   
 	   	refreshScreen();
    }
    
-   public static Card computerPlayCard(){
-	   Card card = new Card();
-	   return card;
+   public static Card computerPlayCard(Card playerCard){
+	   //TODO: get card from Computer's hand
+	   Card computerCard = new Card();
+	   
+	   //clearPlayArea();
+	   	  //TODO: Adjust this after computer's turn code
+
+	      //for (int k = 0; k < NUM_PLAYERS; k++)
+	      //{
+	         playedCardLabels[0] = new JLabel(
+	               cardGUI.getIcon(computerCard), JLabel.CENTER);
+	         
+	         playLabelText[0] = new JLabel("Computer", JLabel.CENTER);
+	  	     //myCardTable.pnlPlayArea.add(playedCardLabels[0]);
+	  	     //myCardTable.pnlPlayArea.add(playLabelText[0]);
+	  	    //}
+	   
+	   	refreshScreen();
+	   
+	   
+	   
+	   return computerCard;
 	   
    }
    
