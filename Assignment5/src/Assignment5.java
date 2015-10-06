@@ -35,18 +35,20 @@ public class Assignment5
    static CardTable myCardTable
          = new CardTable("CardTable", NUM_CARDS_PER_HAND, NUM_PLAYERS);
    
+   // Phase 3 Declarations
+   static int numPacksPerDeck = 1;
+   static int numJokersPerPack = 0;
+   static int numUnusedCardsPerPack = 0;
+   static Card[] unusedCardsPerPack = null;
+
+   static CardGameFramework highCardGame = new CardGameFramework(
+         numPacksPerDeck, numJokersPerPack,
+         numUnusedCardsPerPack, unusedCardsPerPack,
+         NUM_PLAYERS, NUM_CARDS_PER_HAND);
+   
    public static void main(String[] args)
    {
-      // Phase 3 Declarations
-      int numPacksPerDeck = 1;
-      int numJokersPerPack = 0;
-      int numUnusedCardsPerPack = 0;
-      Card[] unusedCardsPerPack = null;
-
-      CardGameFramework highCardGame = new CardGameFramework(
-            numPacksPerDeck, numJokersPerPack,
-            numUnusedCardsPerPack, unusedCardsPerPack,
-            NUM_PLAYERS, NUM_CARDS_PER_HAND);
+      
 
       if (!highCardGame.deal())
       {
@@ -95,7 +97,7 @@ public class Assignment5
       
       setupPlayerHand(humanHand);
       
-      setupPlayArea(highCardGame);
+      setupPlayArea();
       /*
       for (k = 0; k < NUM_PLAYERS; k++)
       {
@@ -127,7 +129,7 @@ public class Assignment5
       myCardTable.setVisible(true);
    }
    
-   public static void setupPlayArea(CardGameFramework highCardGame){
+   public static void setupPlayArea(){
 
 	      for (int k = 0; k < NUM_PLAYERS; k++)
 	      {
@@ -171,10 +173,7 @@ public class Assignment5
 	    		    	loop:
 	    		    	for (int x=0;x<NUM_CARDS_PER_HAND;x++){
 	    		    		if ((JButton) e.getSource()==humanCardButtons[x]){
-	    		    			clearPlayArea();
-	    		    			playCard(humanHand.inspectCard(x));
-	    		    			computerPlayCard(humanHand.inspectCard(x));
-	    		    			addCardsToPlayArea();
+	    		    			playCards(humanHand.inspectCard(x));
 	    		    			break loop;
 	    		    		}
 	    		    	}
@@ -185,6 +184,7 @@ public class Assignment5
 	      }
 	   
    }
+   
    
    public static void refreshScreen(){
 	   		myCardTable.mainPanel.setVisible(false);
@@ -228,8 +228,16 @@ public class Assignment5
 	      }
 	      refreshPlayArea();
    }
+
+   public static void playCards(Card playerCard){
+	   clearPlayArea();
+	   playerPlayCard(playerCard);
+	   playerWins(playerCard, 
+				computerPlayCard(playerCard));
+		addCardsToPlayArea();
+   }
    
-   public static void playCard(Card card){
+   public static void playerPlayCard(Card card){
 	   	  
 	   	  //TODO: Adjust this after computer's turn code
 
@@ -269,6 +277,11 @@ public class Assignment5
 	   
 	   return computerCard;
 	   
+   }
+   
+   public static boolean playerWins(Card playerCard, Card computerCard){
+	   
+	   return false;
    }
    
    
@@ -586,7 +599,7 @@ class Hand
    public Card playCard()
    {
       Card card = myCards[numCards - 1];
-      myCards[numCards - 1] = null;
+      //myCards[numCards - 1] = null;
       numCards--;
       return card;
    }
@@ -790,10 +803,12 @@ class Deck
       int index = Arrays.asList(cards).indexOf(card);
       if (index > 0)
       {
-         Card cardCopy = new Card(cards[topCard].getchar(),
-               cards[topCard].getSuit());
-         cards[index] = cardCopy;
-         cards[topCard] = null;
+         Card topCardCopy = new Card(cards[topCard].getchar(),
+                  cards[topCard].getSuit());
+         Card cardCopy = new Card(cards[index].getchar(),
+               cards[index].getSuit());
+         cards[index] = topCardCopy;
+         cards[topCard] = cardCopy;
          topCard--;
          return true;
       }
