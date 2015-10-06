@@ -91,11 +91,15 @@ public class Assignment5
          computerLabels[k] = new JLabel(cardGUI.getBackCardIcon());
 
       Hand humanHand = highCardGame.getHand(1);
+
+      // Following line should work, gives a null pointer exception
+      //humanHand.sort();
+
       //humanLabels = new JLabel[NUM_CARDS_PER_HAND];
       for (k = 0; k < NUM_CARDS_PER_HAND; k++)
          humanLabels[k] = new JLabel(cardGUI.getIcon(humanHand.inspectCard(k)));
       
-      setupPlayerHand(humanHand);
+      setupPlayerHand(humanHand, computerHand);
       
       setupPlayArea();
       /*
@@ -120,11 +124,7 @@ public class Assignment5
       //for (k = 0; k < NUM_CARDS_PER_HAND; k++){
       //    myCardTable.pnlHumanHand.add(humanLabels[k]);
       //}
-      
 
-
-      
-      
       // show everything to the user
       myCardTable.setVisible(true);
    }
@@ -155,7 +155,7 @@ public class Assignment5
 	      }
    }
 
-   public static void setupPlayerHand(final Hand humanHand){
+   public static void setupPlayerHand(final Hand humanHand, final Hand computerHand){
 	    
 	      for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
 	    	  humanCardButtons[k] = new JButton("",cardGUI.getIcon(humanHand.inspectCard(k)));
@@ -166,26 +166,28 @@ public class Assignment5
 	      }
 
 	      for (int k = 0; k < NUM_CARDS_PER_HAND; k++){
-	    	  humanCardButtons[k].addActionListener(new ActionListener() {
-	    		    @Override
-	    		    public void actionPerformed(ActionEvent e) {
-	    		    	myCardTable.pnlHumanHand.remove((JButton) e.getSource());
-	    		    	loop:
-	    		    	for (int x=0;x<NUM_CARDS_PER_HAND;x++){
-	    		    		if ((JButton) e.getSource()==humanCardButtons[x]){
-	    		    			playCards(humanHand.inspectCard(x));
-	    		    			break loop;
-	    		    		}
-	    		    	}
-	    		        
-	    		    	refreshPlayerPanel();
-	    		    }
-	    		});
+	    	  humanCardButtons[k].addActionListener(new ActionListener()
+           {
+              @Override
+              public void actionPerformed(ActionEvent e)
+              {
+                 myCardTable.pnlHumanHand.remove((JButton) e.getSource());
+                 loop:
+                 for (int x = 0; x < NUM_CARDS_PER_HAND; x++)
+                 {
+                    if ((JButton) e.getSource() == humanCardButtons[x])
+                    {
+                       playCards(humanHand.inspectCard(x), computerHand);
+                       break loop;
+                    }
+                 }
+
+                 refreshPlayerPanel();
+              }
+           });
 	      }
-	   
    }
-   
-   
+
    public static void refreshScreen(){
 	   		myCardTable.mainPanel.setVisible(false);
 	   		myCardTable.mainPanel.setVisible(true);
@@ -229,11 +231,11 @@ public class Assignment5
 	      refreshPlayArea();
    }
 
-   public static void playCards(Card playerCard){
+   public static void playCards(Card playerCard, Hand computerHand){
 	   clearPlayArea();
 	   playerPlayCard(playerCard);
 	   playerWins(playerCard, 
-				computerPlayCard(playerCard));
+				computerPlayCard(playerCard, computerHand));
 		addCardsToPlayArea();
    }
    
@@ -254,9 +256,10 @@ public class Assignment5
 	   	refreshScreen();
    }
    
-   public static Card computerPlayCard(Card playerCard){
+   public static Card computerPlayCard(Card playerCard, Hand computerHand){
 	   //TODO: get card from Computer's hand
-	   Card computerCard = new Card();
+	   //Card computerCard = new Card();
+      Card computerCard = computerHand.playCard();
 	   
 	   //clearPlayArea();
 	   	  //TODO: Adjust this after computer's turn code
@@ -272,16 +275,20 @@ public class Assignment5
 	  	    //}
 	   
 	   	refreshScreen();
-	   
-	   
-	   
 	   return computerCard;
-	   
    }
    
-   public static boolean playerWins(Card playerCard, Card computerCard){
-	   
-	   return false;
+   public static boolean playerWins(Card playerCard, Card computerCard)
+   {
+      int playerValue = Arrays.asList(Card.Value).indexOf(playerCard.getchar());
+      int computerValue = Arrays.asList(Card.Value).indexOf(
+         computerCard.getchar());
+
+      if ( playerValue >= computerValue )
+      {
+         return true;
+      }
+      return false;
    }
    
    
