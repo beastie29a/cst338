@@ -9,7 +9,6 @@
  */
 
 import javax.swing.*;
-import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -92,9 +91,7 @@ public class Assignment5
 
       Hand humanHand = highCardGame.getHand(1);
 
-      // Following line should work, gives a null pointer exception
-      //humanHand.sort();
-
+      highCardGame.sortHands();
       //humanLabels = new JLabel[NUM_CARDS_PER_HAND];
       for (k = 0; k < NUM_CARDS_PER_HAND; k++)
          humanLabels[k] = new JLabel(cardGUI.getIcon(humanHand.inspectCard(k)));
@@ -472,26 +469,34 @@ class Card
 
    static void arraySort(Card[] cards, int arraySize)
    {
-      int j;
-      boolean swap = true;   // set flag to true to begin first pass
       Card temp;   //holding variable
 
-      while (swap)
+      for(int i = 0; i < arraySize; i++)
       {
-         swap = false;    //set flag to false awaiting a possible swap
-         for (j = 0; j < arraySize - 1; j++)
+         for (int j = 1; j < arraySize - i; j++)
          {
-            if ((Arrays.asList(valueRanks).indexOf(cards[j].getchar())) >
-                  (Arrays.asList(valueRanks).indexOf(cards[j + 1].getchar())))
+            if (getIndexValue(cards[j - 1].getchar())
+                  > getIndexValue(cards[j].getchar()))
             {
-               temp = cards[j];   //swap elements
-               cards[j] = cards[j + 1];
-               cards[j + 1] = temp;
-               swap = true;    //shows a swap occurred
+               temp = cards[j - 1];
+               cards[j - 1] = cards[j];
+               cards[j] = temp;
             }
          }
       }
    }
+
+   private static int getIndexValue( char value )
+   {
+      int index = -1;
+      for ( int i = 0  ; i < valueRanks.length ; i++ )
+      {
+         if ( valueRanks[i] == value )
+            return (index = i);
+      }
+      return index;
+   }
+
 
    // Output message - invalid or display card
    public String toString()
@@ -651,7 +656,7 @@ class Hand
 
    public void sort()
    {
-      Card.arraySort(myCards, myCards.length);
+      Card.arraySort(myCards, numCards);
    }
 
 }
