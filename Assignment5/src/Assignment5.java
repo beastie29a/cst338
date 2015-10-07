@@ -599,7 +599,6 @@ class Hand
    public Card playCard()
    {
       Card card = myCards[numCards - 1];
-      //myCards[numCards - 1] = null;
       numCards--;
       return card;
    }
