@@ -38,6 +38,8 @@ public class Assignment5
    static int numJokersPerPack = 0;
    static int numUnusedCardsPerPack = 0;
    static Card[] unusedCardsPerPack = null;
+   static Card[] winnings = new Card[NUM_CARDS_PER_HAND * 2];
+   static int winningTotal = 0;
 
    static CardGameFramework highCardGame = new CardGameFramework(
          numPacksPerDeck, numJokersPerPack,
@@ -258,6 +260,18 @@ public class Assignment5
       return computerCard;
    }
 
+   public static void addToWinnings(Card playerCard, Card computerCard)
+   {
+      winnings[winningTotal] = playerCard;
+      winnings[winningTotal+1] = computerCard;
+      winningTotal = winningTotal + 2;
+   }
+
+   public static int getWinnings()
+   {
+      return winningTotal;
+   }
+
    public static boolean playerWins(Card playerCard, Card computerCard)
    {
       int playerValue = getIndexValue(playerCard.getchar());
@@ -265,6 +279,7 @@ public class Assignment5
 
       if (playerValue >= computerValue)
       {
+         addToWinnings(playerCard, computerCard);
          return true;
       }
       return false;
