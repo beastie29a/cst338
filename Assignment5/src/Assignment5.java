@@ -622,22 +622,23 @@ class Hand
    // Overloaded playCard() to deal with an index
    public Card playCard(int index)
    {
-      if (index >= numCards || numCards == 0)
+      if (index > this.numCards || this.numCards < 0)
          return new Card();
 
-      if (index == (numCards - 1))
+      if (index == (this.numCards - 1))
          return playCard();
 
       Card temp = new Card(this.myCards[index].getchar(),
             this.myCards[index].getSuit());
 
-      for (int i = index; i < numCards - 1; i++)
+      for (int i = index; i < this.numCards - 1; i++)
       {
-         myCards[i].set(myCards[i + 1].getchar(), myCards[i + 1].getSuit());
+         this.myCards[i].set(
+            this.myCards[i + 1].getchar(), this.myCards[i + 1].getSuit());
       }
 
-      myCards[numCards - 1] = null;
-      numCards--;
+      this.myCards[this.numCards - 1] = null;
+      this.numCards--;
       return temp;
 
    }
