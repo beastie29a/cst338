@@ -49,7 +49,7 @@ public class Assignment5
 
       if (!highCardGame.deal())
       {
-         System.out.print("Unable to deal");
+         //System.out.print("Unable to deal");
          System.exit(1);
       }
 
@@ -128,7 +128,6 @@ public class Assignment5
 
       for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
       {
-         //TODO: remove + k after testing
          myCardTable.pnlHumanHand.add(humanCardButtons[k]);
       }
 
@@ -263,7 +262,13 @@ public class Assignment5
       //myCardTable.pnlPlayArea.add(playedCardLabels[0]);
       //myCardTable.pnlPlayArea.add(playLabelText[0]);
       //}
-
+      loop:
+      for (int k=0;k<computerLabels.length;k++){
+    	  if (computerLabels[k].getParent()!=null){
+    		  myCardTable.pnlComputerHand.remove(computerLabels[k]);
+    		  break loop;
+    	  }
+      }
       refreshScreen();
       return computerCard;
    }
@@ -403,12 +408,9 @@ class GUICard
 
    private static int valueAsInt(Card card)
    {
-      //TODO: remove this after testing
-      System.out.println(card.getchar());
       String values = new String(Card.Value);
       //return Arrays.asList(Card.Value).indexOf(card.getchar());
       return values.indexOf(card.getchar());
-
    }
 
    private static int suitAsInt(Card card)
@@ -420,7 +422,6 @@ class GUICard
 
    static public Icon getIcon(Card card)
    {
-      System.out.println(valueAsInt(card) + " " + suitAsInt(card));
       return (Icon) iconCards[valueAsInt(card)][suitAsInt(card)];
    }
 
