@@ -255,8 +255,22 @@ public class Assignment5
    
    public static Card computerPlayCard(Card playerCard, Hand computerHand){
 	   //TODO: get card from Computer's hand
-	   //Card computerCard = new Card();
-      Card computerCard = computerHand.playCard();
+	   Card computerCard = new Card();
+      boolean higherCard = false;
+
+      for ( int i = 0 ; i < computerHand.getNumCards() ; i++ )
+      {
+         if ( getIndexValue( playerCard.getchar() ) <
+               getIndexValue( computerHand.inspectCard(i).getchar() ) )
+         {
+            computerCard = computerHand.playCard(i);
+            higherCard = true;
+            continue;
+         }
+      }
+
+      if (!higherCard)
+         computerCard = computerHand.playCard(0);
 	   
 	   //clearPlayArea();
 	   	  //TODO: Adjust this after computer's turn code
@@ -287,7 +301,17 @@ public class Assignment5
       }
       return false;
    }
-   
+
+   private static int getIndexValue( char value )
+   {
+      int index = -1;
+      for ( int i = 0  ; i < Card.valueRanks.length ; i++ )
+      {
+         if ( Card.valueRanks[i] == value )
+            return (index = i);
+      }
+      return index;
+   }
    
 }
 
@@ -614,6 +638,29 @@ class Hand
       //myCards[numCards - 1] = null;
       numCards--;
       return card;
+   }
+
+   // Overloaded playCard() to deal with an index
+   public Card playCard( int index )
+   {
+      if ( index >= numCards || numCards == 0 )
+         return new Card();
+
+      if ( index == (numCards - 1) )
+         return playCard();
+
+      Card temp = new Card( this.myCards[index].getchar(),
+         this.myCards[index].getSuit());
+
+      for ( int i = index ; i < numCards -1  ; i++)
+      {
+         myCards[i].set(myCards[i + 1].getchar(), myCards[i + 1].getSuit());
+      }
+
+      myCards[numCards - 1] = null;
+      numCards--;
+      return temp;
+
    }
 
    // Output message
