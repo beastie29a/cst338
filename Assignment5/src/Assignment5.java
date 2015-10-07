@@ -291,9 +291,8 @@ public class Assignment5
    
    public static boolean playerWins(Card playerCard, Card computerCard)
    {
-      int playerValue = Arrays.asList(Card.Value).indexOf(playerCard.getchar());
-      int computerValue = Arrays.asList(Card.Value).indexOf(
-         computerCard.getchar());
+      int playerValue = getIndexValue(playerCard.getchar());
+      int computerValue = getIndexValue(computerCard.getchar());
 
       if ( playerValue >= computerValue )
       {
