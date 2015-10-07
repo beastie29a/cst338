@@ -613,18 +613,18 @@ class Hand
       if (index == (numCards - 1))
          return playCard();
 
-      Card temp = new Card(this.myCards[index].getchar(),
-            this.myCards[index].getSuit());
+      Card temp = new Card(myCards[index].getchar(),
+            myCards[index].getSuit());
 
-      for (int i = index; i < numCards - 1; i++)
+      for (int i = index; i < numCards - 1 ; i++)
       {
-         myCards[i].set(myCards[i + 1].getchar(), myCards[i + 1].getSuit());
+         myCards[i].set(
+            myCards[i + 1].getchar(), myCards[i + 1].getSuit());
       }
 
       myCards[numCards - 1] = null;
       numCards--;
       return temp;
-
    }
 
    // Output message
