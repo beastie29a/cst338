@@ -334,21 +334,18 @@ class CardTable extends JFrame
    {
       super(title);
       if (!isValid(title, numCardsPerHand, numPlayers)) return;
-      setSize(1150, 650);
+      setSize(800, 600);
       setLocationRelativeTo(null);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      //setLayout(new BorderLayout());
+      setLayout(new BorderLayout());
       mainPanel = new JPanel();
       pnlComputerHand = new JPanel();
       pnlHumanHand = new JPanel();
-      //pnlHumanHand.setLayout(new GridLayout(2, 1));
       pnlPlayArea = new JPanel();
-      mainPanel.setLayout(new GridLayout(3, 1));
 
-      mainPanel.add(pnlComputerHand);
-      mainPanel.add(pnlPlayArea);
-      mainPanel.add(pnlHumanHand);
-      add(mainPanel, BorderLayout.CENTER);
+      add(pnlComputerHand, BorderLayout.NORTH);
+      add(pnlPlayArea, BorderLayout.CENTER);
+      add(pnlHumanHand, BorderLayout.SOUTH);
    }
 
    private boolean isValid(String title, int numCardsPerHand, int numPlayers)
@@ -654,7 +651,7 @@ class Hand
       for (int i = index; i < numCards - 1 ; i++)
       {
          myCards[i].set(
-            myCards[i + 1].getchar(), myCards[i + 1].getSuit());
+               myCards[i + 1].getchar(), myCards[i + 1].getSuit());
       }
 
       myCards[numCards - 1] = null;
