@@ -212,6 +212,27 @@ public class Assignment5
       playerWins(playerCard,
             computerPlayCard(playerCard, computerHand));
       addCardsToPlayArea();
+      endGame();
+   }
+   
+   public static void endGame(){
+	   int x=0;
+	   int k=0;
+	   for (k=0;k<computerLabels.length;k++){
+	    	  if (computerLabels[k].getParent()==null){
+	    		  x++;
+	    	  }
+	   }
+	   
+	   if (k==x){
+		   clearPlayArea();
+		   if (getWinnings()>=8){
+			   myCardTable.pnlPlayArea.add(new JLabel("You Win!", JLabel.CENTER));
+		   } else {
+
+			   myCardTable.pnlPlayArea.add(new JLabel("You Lose!", JLabel.CENTER));
+		   }
+	   }
    }
 
    public static void playerPlayCard(Card card)
