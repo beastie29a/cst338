@@ -243,7 +243,7 @@ public class Assignment5
          {
             computerCard = computerHand.playCard(i);
             higherCard = true;
-            continue;
+            break;
          }
       }
 
@@ -622,25 +622,24 @@ class Hand
    // Overloaded playCard() to deal with an index
    public Card playCard(int index)
    {
-      if (index > this.numCards || this.numCards < 0)
+      if (index > numCards || numCards == 0)
          return new Card();
 
-      if (index == (this.numCards - 1))
+      if (index == (numCards - 1))
          return playCard();
 
-      Card temp = new Card(this.myCards[index].getchar(),
-            this.myCards[index].getSuit());
+      Card temp = new Card(myCards[index].getchar(),
+            myCards[index].getSuit());
 
-      for (int i = index; i < this.numCards - 1; i++)
+      for (int i = index; i < numCards - 1 ; i++)
       {
-         this.myCards[i].set(
-            this.myCards[i + 1].getchar(), this.myCards[i + 1].getSuit());
+         myCards[i].set(
+            myCards[i + 1].getchar(), myCards[i + 1].getSuit());
       }
 
-      this.myCards[this.numCards - 1] = null;
-      this.numCards--;
+      myCards[numCards - 1] = null;
+      numCards--;
       return temp;
-
    }
 
    // Output message
