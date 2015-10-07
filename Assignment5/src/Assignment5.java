@@ -215,18 +215,10 @@ public class Assignment5
    public static void playerPlayCard(Card card)
    {
 
-      //TODO: Adjust this after computer's turn code
-
-      //for (int k = 0; k < NUM_PLAYERS; k++)
-      //{
       playedCardLabels[1] = new JLabel(
             cardGUI.getIcon(card), JLabel.CENTER);
 
       playLabelText[1] = new JLabel("You", JLabel.CENTER);
-      //myCardTable.pnlPlayArea.add(playedCardLabels[1]);
-      //myCardTable.pnlPlayArea.add(playLabelText[1]);
-      //}
-
       refreshScreen();
    }
 
@@ -243,25 +235,18 @@ public class Assignment5
          {
             computerCard = computerHand.playCard(i);
             higherCard = true;
-            continue;
+            break;
          }
       }
 
       if (!higherCard)
          computerCard = computerHand.playCard(0);
 
-      //clearPlayArea();
-      //TODO: Adjust this after computer's turn code
-
-      //for (int k = 0; k < NUM_PLAYERS; k++)
-      //{
       playedCardLabels[0] = new JLabel(
             cardGUI.getIcon(computerCard), JLabel.CENTER);
 
       playLabelText[0] = new JLabel("Computer", JLabel.CENTER);
-      //myCardTable.pnlPlayArea.add(playedCardLabels[0]);
-      //myCardTable.pnlPlayArea.add(playLabelText[0]);
-      //}
+      
       loop:
       for (int k=0;k<computerLabels.length;k++){
     	  if (computerLabels[k].getParent()!=null){
@@ -622,7 +607,7 @@ class Hand
    // Overloaded playCard() to deal with an index
    public Card playCard(int index)
    {
-      if (index >= numCards || numCards == 0)
+      if (index > numCards || numCards == 0)
          return new Card();
 
       if (index == (numCards - 1))
