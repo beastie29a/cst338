@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+// Phase 3 - High-Card Game
 public class Assignment5
 {
    // Phase 2 declarations
@@ -48,7 +49,6 @@ public class Assignment5
 
    public static void main(String[] args)
    {
-
       if (!highCardGame.deal())
       {
          //System.out.print("Unable to deal");
@@ -58,7 +58,7 @@ public class Assignment5
       // Loop counter
       int k;
 
-      myCardTable.setSize(800, 600);
+      myCardTable.setSize(900, 800);
       myCardTable.setLocationRelativeTo(null);
       myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -316,9 +316,9 @@ public class Assignment5
       }
       return index;
    }
-
 }
 
+// Controls position of panels and cards of GUI
 class CardTable extends JFrame
 {
    static int MAX_CARDS_PER_HAND = 56;
@@ -370,6 +370,7 @@ class CardTable extends JFrame
 
 }
 
+// Read and store image files / Icons
 class GUICard
 {
 
