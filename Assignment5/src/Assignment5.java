@@ -212,23 +212,36 @@ public class Assignment5
       playerWins(playerCard,
             computerPlayCard(playerCard, computerHand));
       addCardsToPlayArea();
+      endGame();
+   }
+   
+   public static void endGame(){
+	   int x=0;
+	   int k=0;
+	   for (k=0;k<computerLabels.length;k++){
+	    	  if (computerLabels[k].getParent()==null){
+	    		  x++;
+	    	  }
+	   }
+	   
+	   if (k==x){
+		   clearPlayArea();
+		   if (getWinnings()>=8){
+			   myCardTable.pnlPlayArea.add(new JLabel("You Win!", JLabel.CENTER));
+		   } else {
+
+			   myCardTable.pnlPlayArea.add(new JLabel("You Lose!", JLabel.CENTER));
+		   }
+	   }
    }
 
    public static void playerPlayCard(Card card)
    {
 
-      //TODO: Adjust this after computer's turn code
-
-      //for (int k = 0; k < NUM_PLAYERS; k++)
-      //{
       playedCardLabels[1] = new JLabel(
             cardGUI.getIcon(card), JLabel.CENTER);
 
       playLabelText[1] = new JLabel("You", JLabel.CENTER);
-      //myCardTable.pnlPlayArea.add(playedCardLabels[1]);
-      //myCardTable.pnlPlayArea.add(playLabelText[1]);
-      //}
-
       refreshScreen();
    }
 
@@ -252,18 +265,11 @@ public class Assignment5
       if (!higherCard)
          computerCard = computerHand.playCard(0);
 
-      //clearPlayArea();
-      //TODO: Adjust this after computer's turn code
-
-      //for (int k = 0; k < NUM_PLAYERS; k++)
-      //{
       playedCardLabels[0] = new JLabel(
             cardGUI.getIcon(computerCard), JLabel.CENTER);
 
       playLabelText[0] = new JLabel("Computer", JLabel.CENTER);
-      //myCardTable.pnlPlayArea.add(playedCardLabels[0]);
-      //myCardTable.pnlPlayArea.add(playLabelText[0]);
-      //}
+      
       loop:
       for (int k=0;k<computerLabels.length;k++){
     	  if (computerLabels[k].getParent()!=null){
@@ -629,7 +635,6 @@ class Hand
    public Card playCard()
    {
       Card card = myCards[numCards - 1];
-      //myCards[numCards - 1] = null;
       numCards--;
       return card;
    }
