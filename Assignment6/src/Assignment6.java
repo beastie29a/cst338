@@ -1099,15 +1099,11 @@ class CardGameFramework
 
    }
 
-
-   boolean takeCard(int playerIndex, int cardIndex)
+   boolean takeCard(int playerIndex)
    {
       // returns false if either argument is bad
-      if (playerIndex < 0 ||  playerIndex > numPlayers - 1 ||
-            cardIndex < 0 || cardIndex > numCardsPerHand - 1)
-      {
+      if (playerIndex < 0 || playerIndex > numPlayers - 1)
          return false;
-      }
 
       // Are there enough Cards?
       if (deck.getNumCards() <= 0)
