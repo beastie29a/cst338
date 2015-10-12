@@ -106,3 +106,5 @@ local.properties
 # TeXlipse plugin
 .texlipse
 
+images/
+*.gif
