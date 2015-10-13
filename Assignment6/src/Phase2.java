@@ -1,4 +1,3 @@
-
 /**
  * CST 338 - Fall 2015 Session A
  * Assignment 5, GUI Cards - High Card
@@ -16,6 +15,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+
 
 // Phase 3 - High-Card Game
 public class Phase2
