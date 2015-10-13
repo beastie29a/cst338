@@ -51,16 +51,10 @@ public class Phase2
       numUnusedCardsPerPack, unusedCardsPerPack,
       NUM_PLAYERS, NUM_CARDS_PER_HAND);
 
-
-
+   //---------------------------------------
+   // Instantiate Clock object for Timer
    static Clock insertClock = new Clock();
-
-   static Timer clockTimer;
-   static JButton startStopButton;
-   static JLabel timeText;
-   static int counter = 0;
-   static boolean running = true;
-   static final int PAUSE = 100; // Milliseconds
+   //----------------------------------------
 
 
    public static void main(String[] args)
