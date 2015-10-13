@@ -78,6 +78,10 @@ public class Phase2
          BorderFactory.createTitledBorder("Your Hand"));
       myCardTable.pnlPlayArea.setBorder(
          BorderFactory.createTitledBorder("Playing Area"));
+      //---Add for Timer
+      myCardTable.pnlTimer.setBorder(
+         BorderFactory.createTitledBorder("Timer"));
+      //-------------
       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
 
 
@@ -373,13 +377,17 @@ class CardTable extends JFrame
       pnlComputerHand = new JPanel();
       pnlHumanHand = new JPanel();
       pnlPlayArea = new JPanel();
+      //---Add for Timer
       pnlTimer = new JPanel();
+      //-------------
 
 
       add(pnlComputerHand, BorderLayout.NORTH);
       add(pnlPlayArea, BorderLayout.CENTER);
       add(pnlHumanHand, BorderLayout.SOUTH);
+      //---Add for Timer
       add(pnlTimer, BorderLayout.EAST);
+      //-----------------
    }
 
    private boolean isValid(String title, int numCardsPerHand, int numPlayers)
@@ -1072,13 +1080,16 @@ class CardGameFramework
 // Set up Timer and button actions to run on separate thread
 class Clock extends JFrame
 {
+   private int counter = 0;
+   private boolean runTimer = false;
+   private final int PAUSE = 100; // Milliseconds
+   private String start = "START";
+   private String stop = "STOP";
+
    public Timer clockTimer;
    public JButton startStopButton;
    public JLabel timeText;
    public JPanel timerPanel;
-   private int counter = 0;
-   private boolean running = true;
-   private final int PAUSE = 100; // Milliseconds
 
    // Default constructor creates GUI
    public Clock()
@@ -1086,15 +1097,15 @@ class Clock extends JFrame
       // Timer action set to 1000 milliseconds
       clockTimer = new Timer(1000, timerEvent);
 
-      //timerPanel = new JPanel();
       timeText = new JLabel("" + formatToTime(counter));
-      //timerPanel.add(timeText);
 
-      startStopButton = new JButton("START");
+      startStopButton = new JButton(start);
       startStopButton.addActionListener(buttonEvent);
 
+      /***Display clock in separate window for testing***/
+      //timerPanel = new JPanel();
+      //timerPanel.add(timeText);
       //timerPanel.setLayout(new BorderLayout());
-
       //add(timerPanel, BorderLayout.CENTER);
       //timerPanel.add(timeText, BorderLayout.NORTH);
       //timerPanel.add(startStopButton, BorderLayout.SOUTH);
@@ -1136,19 +1147,20 @@ class Clock extends JFrame
    {
       public void run()
       {
-         if (running)
+         if (runTimer)
          {
-            startStopButton.setText("STOP");
-            clockTimer.start();
-            running = false;
-            counter = 0;
+            startStopButton.setText(start);
+            clockTimer.stop();
+            runTimer = false;
             timeText.setText("" + formatToTime(counter));
          }
-         else if (!running)
+         else if (!runTimer)
          {
-            startStopButton.setText("START");
-            clockTimer.stop();
-            running = true;
+            startStopButton.setText(stop);
+            clockTimer.start();
+            runTimer = true;
+            counter = 0;
+            timeText.setText("" + formatToTime(counter));
          }
          doNothing(PAUSE);
       }
