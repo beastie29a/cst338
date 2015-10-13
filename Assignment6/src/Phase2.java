@@ -16,6 +16,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 1762e2e202dc3795f7780ba93db07f1f30efb497
 // Phase 3 - High-Card Game
 public class Phase2
 {
@@ -50,10 +54,18 @@ public class Phase2
       numUnusedCardsPerPack, unusedCardsPerPack,
       NUM_PLAYERS, NUM_CARDS_PER_HAND);
 
+<<<<<<< HEAD
+   //---------------------------------------
+   // Instantiate Clock object for Timer
+   static Clock insertClock = new Clock();
+   //----------------------------------------
+
+=======
    //-------------------------------------------
    // Instantiate Clock object for Timer
    static Clock insertClock = new Clock();
    //-------------------------------------------
+>>>>>>> 1762e2e202dc3795f7780ba93db07f1f30efb497
 
    public static void main(String[] args)
    {
@@ -104,7 +116,11 @@ public class Phase2
       myCardTable.setVisible(true);
 
 
+<<<<<<< HEAD
+      // TIMER STUFF  --------------------------------------------------------
+=======
       // Add Timer--------------------------------------------------------
+>>>>>>> 1762e2e202dc3795f7780ba93db07f1f30efb497
 
       //myCardTable.pnlPlayArea.add(myCardTable.pnlTimer, BorderLayout.EAST);
 
@@ -1162,4 +1178,8 @@ class Clock extends JFrame
          }
       }
    } //End TimerClass inner class
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 1762e2e202dc3795f7780ba93db07f1f30efb497
