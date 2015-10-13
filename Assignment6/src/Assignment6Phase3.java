@@ -1,7 +1,7 @@
 
 /**
  * CST 338 - Fall 2015 Session A
- * Assignment 5, GUI Cards - High Card
+ * Assignment 6, Build Card Game
  * Phase III
  *
  * @author Robert Contreras
@@ -14,7 +14,7 @@ import javax.swing.*;
       import java.awt.event.*;
       import java.util.*;
 
-public class Assignment6
+public class Assignment6Phase3
 {
    // Phase 2 declarations
    static JLabel[] computerLabels = new JLabel[NUM_CARDS_PER_HAND];
@@ -336,6 +336,11 @@ class BuildCardModel
    {
       cannotPlayCount = 0;
    }
+
+}
+
+class BuildCardView
+{
 
 }
 
