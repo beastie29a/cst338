@@ -10,7 +10,6 @@ public class HighCardView {
 	static JLabel[] computerLabels = new JLabel[NUM_CARDS_PER_HAND];
 	static JLabel[] humanLabels = new JLabel[NUM_CARDS_PER_HAND];
 	static JLabel[] playedCardLabels = new JLabel[NUM_PLAYERS];
-	static JLabel[] playLabelText = new JLabel[NUM_PLAYERS];
 
 	static JButton[] humanCardButtons = new JButton[NUM_CARDS_PER_HAND];
 
@@ -90,25 +89,16 @@ public class HighCardView {
 	   {
 	      for (int k = 0; k < NUM_PLAYERS; k++)
 	      {
+
 	         playedCardLabels[k] = new JLabel(
-	               cardGUI.getBackCardIcon(), JLabel.CENTER);
-	         if (0 == k)
-	         {
-	            playLabelText[k] = new JLabel("Computer", JLabel.CENTER);
-	         } else
-	         {
-	            playLabelText[k] = new JLabel("You", JLabel.CENTER);
-	         }
+	               cardGUI.getIcon(highCardGame.getCardFromDeck()),
+                  JLabel.CENTER);
 	      }
 	      for (int k = 0; k < NUM_PLAYERS; k++)
 	      {
 	         myCardTable.pnlPlayArea.add(playedCardLabels[k]);
 	      }
 
-	      for (int k = 0; k < NUM_PLAYERS; k++)
-	      {
-	         myCardTable.pnlPlayArea.add(playLabelText[k]);
-	      }
 	   }
 
 	   public static void setupPlayerHand(
@@ -174,7 +164,6 @@ public class HighCardView {
 	      for (int k = 0; k < NUM_PLAYERS; k++)
 	      {
 	         myCardTable.pnlPlayArea.remove(playedCardLabels[k]);
-	         myCardTable.pnlPlayArea.remove(playLabelText[k]);
 	      }
 	      refreshPlayArea();
 	   }
@@ -185,10 +174,6 @@ public class HighCardView {
 	      for (int k = 0; k < NUM_PLAYERS; k++)
 	      {
 	         myCardTable.pnlPlayArea.add(playedCardLabels[k]);
-	      }
-	      for (int k = 0; k < NUM_PLAYERS; k++)
-	      {
-	         myCardTable.pnlPlayArea.add(playLabelText[k]);
 	      }
 	      refreshPlayArea();
 	   }
@@ -229,7 +214,6 @@ public class HighCardView {
 	      playedCardLabels[1] = new JLabel(
 	            cardGUI.getIcon(card), JLabel.CENTER);
 
-	      playLabelText[1] = new JLabel("You", JLabel.CENTER);
 	      refreshScreen();
 	   }
 
@@ -256,8 +240,7 @@ public class HighCardView {
 	      playedCardLabels[0] = new JLabel(
 	            cardGUI.getIcon(computerCard), JLabel.CENTER);
 
-	      playLabelText[0] = new JLabel("Computer", JLabel.CENTER);
-	      
+
 	      loop:
 	      for (int k=0;k<computerLabels.length;k++){
 	    	  if (computerLabels[k].getParent()!=null){
