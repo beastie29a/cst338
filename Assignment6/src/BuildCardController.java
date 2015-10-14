@@ -41,6 +41,8 @@ public class BuildCardController {
 
          else
          {
+
+            //System.out.println(theView.humanHand.inspectCard(x) + " | " + x);
             theView.setCurrentButton((JButton) e.getSource());
 
             loop:
@@ -51,14 +53,20 @@ public class BuildCardController {
                   if (theView.checkPlayedCard(theView.humanHand.inspectCard(x)))
                   {
 
-                     theView.myCardTable.pnlHumanHand.remove(theView.getCurrentButton());
+                   //System.out.println("**");
+                   //System.out.println(theView.humanHand.inspectCard(x) + " | " + x);
+                   //System.out.println("**");
+                  //theView.myCardTable.pnlHumanHand.remove(theView.getCurrentButton());
+                  
                      theView.playCards(theView.humanHand.inspectCard(x), theView.computerHand);
                      break loop;
                   }
-                  break loop;
+                  //break loop;
                }
+               //break loop;
             }
          }
+         //System.out.println("---");
          theView.refreshPlayerPanel();
          theView.refreshScreen();
       }

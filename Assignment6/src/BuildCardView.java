@@ -264,15 +264,20 @@ public class BuildCardView
    {
       for (int i = 0 ; i < humanHand.getNumCards() ; i++)
          if ( humanHand.inspectCard(i) == card)
-            highCardGame.playCard(1,i);
+             highCardGame.playCard(1,i);
 
       highCardGame.takeCard(1);
+
+      for (int i = 0 ; i < humanHand.getNumCards() ; i++){
+         humanLabels[i] = new JLabel(cardGUI.getIcon(humanHand.inspectCard(i)));
+         humanCardButtons[i].setIcon(cardGUI.getIcon(humanHand.inspectCard(i)));
+      }
+
       refreshScreen();
    }
 
    public static Card computerPlayCard(Hand computerHand)
    {
-      //TODO: get card from Computer's hand
       Card computerCard = new Card();
       boolean cardPlayed = false;
 

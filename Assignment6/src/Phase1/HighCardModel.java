@@ -3,11 +3,68 @@ import java.util.Random;
 
 
 
+
 public class HighCardModel {
 
-	
-	
-	
+    static int NUM_CARDS_PER_HAND = 7;
+    static int NUM_PLAYERS = 2;
+    
+    // Phase 3 Declarations
+    static int numPacksPerDeck = 1;
+    static int numJokersPerPack = 0;
+    static int numUnusedCardsPerPack = 0;
+    static Card[] unusedCardsPerPack = null;
+    static Card[] winnings = new Card[NUM_CARDS_PER_HAND * 2];
+    static int winningTotal = 0;
+    
+
+    static CardGameFramework highCardGame = new CardGameFramework(
+            numPacksPerDeck, numJokersPerPack,
+            numUnusedCardsPerPack, unusedCardsPerPack,
+            NUM_PLAYERS, NUM_CARDS_PER_HAND);
+    
+    public HighCardModel(){
+
+          if (!highCardGame.deal())
+          {
+             //System.out.print("Unable to deal");
+             System.exit(1);
+          }
+    }
+    
+    
+    public int getNumCardsPerHand(){
+        return NUM_CARDS_PER_HAND;
+    }
+
+    public void setNumCardsPerHand(int numCardsPerHand){
+        NUM_CARDS_PER_HAND=numCardsPerHand;
+    }
+
+    public int getNumPlayers(){
+        return NUM_PLAYERS;
+    }
+
+    public void setNumPlayers(int numPlayers){
+        NUM_PLAYERS=numPlayers;
+    }
+
+    public CardGameFramework getHighCardGame(){
+        return highCardGame;
+    }
+
+    public void setHighCardGame(CardGameFramework highCardGame){
+        highCardGame=highCardGame;
+    }
+    
+    public Card[] getWinningsArray(){
+        return winnings;
+    }
+    
+    public void setWinningsArray(Card[] winnings){
+        this.winnings=winnings;
+    }
+
 }
 
 
