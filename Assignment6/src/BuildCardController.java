@@ -30,6 +30,7 @@ public class BuildCardController {
             {
                if (theView.checkPlayedCard(theView.humanHand.inspectCard(x)))
                {
+
                   theView.myCardTable.pnlHumanHand.remove(theView.getCurrentButton());
                   theView.playCards(theView.humanHand.inspectCard(x), theView.computerHand);
                   break loop;

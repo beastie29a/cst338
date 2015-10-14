@@ -2,6 +2,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BuildCardView
 {
@@ -214,7 +215,10 @@ public class BuildCardView
             value == getIndexValue(playedCards[i].getchar()) + 1)
          {
             // Assign the value to the array
+            myCardTable.pnlPlayArea.remove(playedCardLabels[i]);
             playedCards[i] = playerCard;
+            playedCardLabels[i] = new JLabel(
+                  cardGUI.getIcon(playerCard), JLabel.CENTER);
             return true;
          }
       }
@@ -248,9 +252,13 @@ public class BuildCardView
 
    public static void playerPlayCard(Card card)
    {
+      for (int i = 0 ; i < humanHand.getNumCards() ; i++)
+         if ( humanHand.inspectCard(i) == card)
+            highCardGame.playCard(1,i);
 
-      playedCardLabels[1] = new JLabel(
-            cardGUI.getIcon(card), JLabel.CENTER);
+      highCardGame.takeCard(1);
+      //for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
+       //  humanLabels[k] = new JLabel(cardGUI.getIcon(humanHand.inspectCard(k)));
 
       refreshScreen();
    }
@@ -259,38 +267,18 @@ public class BuildCardView
    {
       //TODO: get card from Computer's hand
       Card computerCard = new Card();
-      boolean canPlay = false;
-      int index;
 
       for (int i = 0; i < computerHand.getNumCards(); i++)
       {
          if (checkPlayedCard(computerHand.inspectCard(i)))
          {
             computerCard = computerHand.playCard(i);
-            canPlay = true;
-            index = i;
             break;
          }
       }
 
-      if (canPlay)
-      {
-         playedCardLabels[0] = new JLabel(
-               cardGUI.getIcon(computerCard), JLabel.CENTER);
-
-         loop:
-         for (int k = 0; k < computerLabels.length; k++)
-         {
-            if (computerLabels[k].getParent() != null)
-            {
-               myCardTable.pnlComputerHand.remove(computerLabels[k]);
-               break loop;
-            }
-         }
-         refreshScreen();
-         return computerCard;
-      }
-      return new Card();
+      refreshScreen();
+      return computerCard;
    }
 
    public static void addToWinnings(Card playerCard, Card computerCard)
