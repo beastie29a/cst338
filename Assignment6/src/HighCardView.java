@@ -14,7 +14,6 @@ public class HighCardView {
 
     static JButton[] humanCardButtons = new JButton[NUM_CARDS_PER_HAND];
     
-    
     static final int NUM_CARD_IMAGES = 56; // 52 + 4 jokers
 
     static GUICard cardGUI = new GUICard();
@@ -132,225 +131,224 @@ public class HighCardView {
     public void setHighCardGame(CardGameFramework highCardGame){
         highCardGame=highCardGame;
     }
-    
-       public static void setupPlayArea()
-       {
-          for (int k = 0; k < NUM_PLAYERS; k++)
-          {
-             playedCardLabels[k] = new JLabel(
-                   cardGUI.getBackCardIcon(), JLabel.CENTER);
-             if (0 == k)
-             {
-                playLabelText[k] = new JLabel("Computer", JLabel.CENTER);
-             } else
-             {
-                playLabelText[k] = new JLabel("You", JLabel.CENTER);
-             }
-          }
-          for (int k = 0; k < NUM_PLAYERS; k++)
-          {
-             myCardTable.pnlPlayArea.add(playedCardLabels[k]);
-          }
 
-          for (int k = 0; k < NUM_PLAYERS; k++)
-          {
-             myCardTable.pnlPlayArea.add(playLabelText[k]);
-          }
+   public static void setupPlayArea()
+   {
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         playedCardLabels[k] = new JLabel(
+               cardGUI.getBackCardIcon(), JLabel.CENTER);
+         if (0 == k)
+         {
+            playLabelText[k] = new JLabel("Computer", JLabel.CENTER);
+         } else {
+            playLabelText[k] = new JLabel("You", JLabel.CENTER);
+         }
        }
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.add(playedCardLabels[k]);
+      }
 
-       public static void setupPlayerHand(
-             final Hand humanHand, final Hand computerHand)
-       {
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.add(playLabelText[k]);
+      }
+   }
 
-          for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
-             humanCardButtons[k] = new JButton(
-                   "", cardGUI.getIcon(humanHand.inspectCard(k)));
+   public static void setupPlayerHand(
+         final Hand humanHand, final Hand computerHand)
+   {
 
+      for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
+         humanCardButtons[k] = new JButton(
+               "", cardGUI.getIcon(humanHand.inspectCard(k)));
+
+      for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
+      {
+         myCardTable.pnlHumanHand.add(humanCardButtons[k]);
+      }
+
+   }
+
+   public void addPlayCardListener(ActionListener listenForPlayCard){
           for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
           {
-             myCardTable.pnlHumanHand.add(humanCardButtons[k]);
+              currentButton=humanCardButtons[k];
+              humanCardButtons[k].addActionListener(listenForPlayCard);
           }
-
-       }
-
-        void addPlayCardListener(ActionListener listenForPlayCard){
-              for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
-              {
-                  currentButton=humanCardButtons[k];
-                  humanCardButtons[k].addActionListener(listenForPlayCard);
-              }
-            
-        }
         
-       public JButton getCurrentButton(){
-           return currentButton;
-       }
-       
-       public void setCurrentButton(JButton currentButton){
-           this.currentButton=currentButton;
-       }
-       
-       public static void refreshScreen()
-       {
-          myCardTable.mainPanel.setVisible(false);
-          myCardTable.mainPanel.setVisible(true);
-       }
+    }
+    
+   public JButton getCurrentButton(){
+       return currentButton;
+   }
+   
+   public void setCurrentButton(JButton currentButton){
+       this.currentButton=currentButton;
+   }
+   
+   public static void refreshScreen()
+   {
+      myCardTable.mainPanel.setVisible(false);
+      myCardTable.mainPanel.setVisible(true);
+   }
 
-       public static void refreshPlayerPanel()
-       {
-          myCardTable.pnlHumanHand.setVisible(false);
-          myCardTable.pnlHumanHand.setVisible(true);
-       }
+   public static void refreshPlayerPanel()
+   {
+      myCardTable.pnlHumanHand.setVisible(false);
+      myCardTable.pnlHumanHand.setVisible(true);
+   }
 
-       public static void refreshComputerPanel()
-       {
-          myCardTable.pnlComputerHand.setVisible(false);
-          myCardTable.pnlComputerHand.setVisible(true);
-       }
+   public static void refreshComputerPanel()
+   {
+      myCardTable.pnlComputerHand.setVisible(false);
+      myCardTable.pnlComputerHand.setVisible(true);
+   }
 
-       public static void refreshPlayArea()
-       {
-          myCardTable.pnlPlayArea.setVisible(false);
-          myCardTable.pnlPlayArea.setVisible(true);
-       }
+   public static void refreshPlayArea()
+   {
+      myCardTable.pnlPlayArea.setVisible(false);
+      myCardTable.pnlPlayArea.setVisible(true);
+   }
 
-       public static void clearPlayArea()
-       {
+   public static void clearPlayArea()
+   {
 
-          for (int k = 0; k < NUM_PLAYERS; k++)
-          {
-             myCardTable.pnlPlayArea.remove(playedCardLabels[k]);
-             myCardTable.pnlPlayArea.remove(playLabelText[k]);
-          }
-          refreshPlayArea();
-       }
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.remove(playedCardLabels[k]);
+         myCardTable.pnlPlayArea.remove(playLabelText[k]);
+      }
+      refreshPlayArea();
+   }
 
-       public static void addCardsToPlayArea()
-       {
+   public static void addCardsToPlayArea()
+   {
 
-          for (int k = 0; k < NUM_PLAYERS; k++)
-          {
-             myCardTable.pnlPlayArea.add(playedCardLabels[k]);
-          }
-          for (int k = 0; k < NUM_PLAYERS; k++)
-          {
-             myCardTable.pnlPlayArea.add(playLabelText[k]);
-          }
-          refreshPlayArea();
-       }
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.add(playedCardLabels[k]);
+      }
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.add(playLabelText[k]);
+      }
+      refreshPlayArea();
+   }
 
-       public static void playCards(Card playerCard, Hand computerHand)
-       {
-          clearPlayArea();
-          playerPlayCard(playerCard);
-          playerWins(playerCard,
-                computerPlayCard(playerCard, computerHand));
-          addCardsToPlayArea();
-          endGame();
-       }
-       
-       public static void endGame(){
-           int x=0;
-           int k=0;
-           for (k=0;k<computerLabels.length;k++){
-                  if (computerLabels[k].getParent()==null){
-                      x++;
-                  }
-           }
-           
-           if (k==x){
-               clearPlayArea();
-               if (getWinnings()>=8){
-                   myCardTable.pnlPlayArea.add(new JLabel("You Win!", JLabel.CENTER));
-               } else {
-
-                   myCardTable.pnlPlayArea.add(new JLabel("You Lose!", JLabel.CENTER));
-               }
-           }
-       }
-
-       public static void playerPlayCard(Card card)
-       {
-
-          playedCardLabels[1] = new JLabel(
-                cardGUI.getIcon(card), JLabel.CENTER);
-
-          playLabelText[1] = new JLabel("You", JLabel.CENTER);
-          refreshScreen();
-       }
-
-       public static Card computerPlayCard(Card playerCard, Hand computerHand)
-       {
-          //TODO: get card from Computer's hand
-          Card computerCard = new Card();
-          boolean higherCard = false;
-
-          for (int i = 0; i < computerHand.getNumCards(); i++)
-          {
-             if (getIndexValue(playerCard.getchar()) <
-                   getIndexValue(computerHand.inspectCard(i).getchar()))
-             {
-                computerCard = computerHand.playCard(i);
-                higherCard = true;
-                break;
-             }
-          }
-
-          if (!higherCard)
-             computerCard = computerHand.playCard(0);
-
-          playedCardLabels[0] = new JLabel(
-                cardGUI.getIcon(computerCard), JLabel.CENTER);
-
-          playLabelText[0] = new JLabel("Computer", JLabel.CENTER);
-          
-          loop:
-          for (int k=0;k<computerLabels.length;k++){
-              if (computerLabels[k].getParent()!=null){
-                  myCardTable.pnlComputerHand.remove(computerLabels[k]);
-                  break loop;
+   public static void playCards(Card playerCard, Hand computerHand)
+   {
+      clearPlayArea();
+      playerPlayCard(playerCard);
+      playerWins(playerCard,
+            computerPlayCard(playerCard, computerHand));
+      addCardsToPlayArea();
+      endGame();
+   }
+   
+   public static void endGame(){
+       int x=0;
+       int k=0;
+       for (k=0;k<computerLabels.length;k++){
+              if (computerLabels[k].getParent()==null){
+                  x++;
               }
+       }
+       
+       if (k==x){
+           clearPlayArea();
+           if (getWinnings()>=8){
+               myCardTable.pnlPlayArea.add(new JLabel("You Win!", JLabel.CENTER));
+   } else {
+
+       myCardTable.pnlPlayArea.add(new JLabel("You Lose!", JLabel.CENTER));
+           }
+       }
+   }
+
+   public static void playerPlayCard(Card card)
+   {
+
+      playedCardLabels[1] = new JLabel(
+            cardGUI.getIcon(card), JLabel.CENTER);
+
+      playLabelText[1] = new JLabel("You", JLabel.CENTER);
+      refreshScreen();
+   }
+
+   public static Card computerPlayCard(Card playerCard, Hand computerHand)
+   {
+      //TODO: get card from Computer's hand
+  Card computerCard = new Card();
+  boolean higherCard = false;
+
+  for (int i = 0; i < computerHand.getNumCards(); i++)
+  {
+     if (getIndexValue(playerCard.getchar()) <
+           getIndexValue(computerHand.inspectCard(i).getchar()))
+     {
+        computerCard = computerHand.playCard(i);
+        higherCard = true;
+        break;
+     }
+  }
+
+  if (!higherCard)
+     computerCard = computerHand.playCard(0);
+
+  playedCardLabels[0] = new JLabel(
+        cardGUI.getIcon(computerCard), JLabel.CENTER);
+
+  playLabelText[0] = new JLabel("Computer", JLabel.CENTER);
+      
+      loop:
+      for (int k=0;k<computerLabels.length;k++){
+          if (computerLabels[k].getParent()!=null){
+              myCardTable.pnlComputerHand.remove(computerLabels[k]);
+              break loop;
           }
-          refreshScreen();
-          return computerCard;
-       }
+      }
+      refreshScreen();
+      return computerCard;
+   }
 
-       public static void addToWinnings(Card playerCard, Card computerCard)
-       {
-          winnings[winningTotal] = playerCard;
-          winnings[winningTotal+1] = computerCard;
-          winningTotal = winningTotal + 2;
-       }
+   public static void addToWinnings(Card playerCard, Card computerCard)
+   {
+      winnings[winningTotal] = playerCard;
+      winnings[winningTotal+1] = computerCard;
+      winningTotal = winningTotal + 2;
+   }
 
-       public static int getWinnings()
-       {
-          return winningTotal;
-       }
+   public static int getWinnings()
+   {
+      return winningTotal;
+   }
 
-       public static boolean playerWins(Card playerCard, Card computerCard)
-       {
-          int playerValue = getIndexValue(playerCard.getchar());
-          int computerValue = getIndexValue(computerCard.getchar());
+   public static boolean playerWins(Card playerCard, Card computerCard)
+   {
+      int playerValue = getIndexValue(playerCard.getchar());
+      int computerValue = getIndexValue(computerCard.getchar());
 
-          if (playerValue >= computerValue)
-          {
-             addToWinnings(playerCard, computerCard);
-             return true;
-          }
-          return false;
-       }
+      if (playerValue >= computerValue)
+      {
+         addToWinnings(playerCard, computerCard);
+         return true;
+      }
+      return false;
+   }
 
-       private static int getIndexValue(char value)
-       {
-          int index = -1;
-          for (int i = 0; i < Card.valueRanks.length; i++)
-          {
-             if (Card.valueRanks[i] == value)
-                return (index = i);
-          }
-          return index;
-       }
-
+   private static int getIndexValue(char value)
+   {
+      int index = -1;
+      for (int i = 0; i < Card.valueRanks.length; i++)
+      {
+         if (Card.valueRanks[i] == value)
+            return (index = i);
+      }
+      return index;
+   }
+    
     public static void setVisible(boolean bool){
         //init();
         myCardTable.setVisible(bool);
