@@ -1033,4 +1033,35 @@ class CardGameFramework
       for (k = 0; k < numPlayers; k++)
          hand[k].sort();
    }
+<<<<<<< HEAD:Assignment5/src/Assignment5.java
+=======
+
+   Card playCard(int playerIndex, int cardIndex)
+   {
+      // returns bad card if either argument is bad
+      if (playerIndex < 0 ||  playerIndex > numPlayers - 1 ||
+            cardIndex < 0 || cardIndex > numCardsPerHand - 1)
+      {
+         //Creates a card that does not work
+         return new Card('M', Card.Suit.spades);
+      }
+
+      // return the card played
+      return hand[playerIndex].playCard(cardIndex);
+
+   }
+
+   boolean takeCard(int playerIndex)
+   {
+      // returns false if either argument is bad
+      if (playerIndex < 0 || playerIndex > numPlayers - 1)
+         return false;
+
+      // Are there enough Cards?
+      if (deck.getNumCards() <= 0)
+         return false;
+
+      return hand[playerIndex].takeCard(deck.dealCard());
+   }
+>>>>>>> Changed takeCard to take in one parameter:Assignment6/src/Assignment6.java
 }
