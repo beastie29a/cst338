@@ -13,9 +13,9 @@ public class Assignment6Phase3
 
    public static void main(String[] args)
    {
-	   HighCardView theView = new HighCardView();
-	   HighCardModel theModel = new HighCardModel();
-	   HighCardController theController = new HighCardController(theView,theModel);
+	   BuildCardView theView = new BuildCardView();
+	   BuildCardModel theModel = new BuildCardModel();
+	   BuildCardController theController = new BuildCardController(theView,theModel);
 	   
 	   theView.setVisible(true);
    }

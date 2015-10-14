@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class HighCardView {
+public class BuildCardView {
 
 	static int NUM_CARDS_PER_HAND = 7;
 	static int NUM_PLAYERS = 2;
@@ -36,7 +36,7 @@ public class HighCardView {
 			numUnusedCardsPerPack, unusedCardsPerPack,
 			NUM_PLAYERS, NUM_CARDS_PER_HAND);
 	
-	public HighCardView(){
+	public BuildCardView(){
 
 	      if (!highCardGame.deal())
 	      {
@@ -120,7 +120,7 @@ public class HighCardView {
 
 		      for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
 		      {
-		    	  currentButton=humanCardButtons[k];
+		    	   currentButton=humanCardButtons[k];
 			      humanCardButtons[k].addActionListener(listenForPlayCard);
 		      }
 			
