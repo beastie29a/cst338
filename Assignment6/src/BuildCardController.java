@@ -22,24 +22,45 @@ public class BuildCardController {
 
       public void actionPerformed(ActionEvent e)
       {
-         theView.setCurrentButton((JButton) e.getSource());
-         loop:
-         for (int x = 0; x < theView.NUM_CARDS_PER_HAND; x++)
+         if (e.getActionCommand().equals("I Cannot Play"))
          {
-            if (theView.getCurrentButton() == theView.humanCardButtons[x])
+            System.out.println(e.getActionCommand());
+            if (theView.cannotPlay == 1)
             {
-               if (theView.checkPlayedCard(theView.humanHand.inspectCard(x)))
-               {
+               theView.cannotPlay = 0;
+               theView.clearPlayArea();
+               theView.setupPlayArea();
+            }
+            else
+               theView.cannotPlay++;
 
-                  theView.myCardTable.pnlHumanHand.remove(theView.getCurrentButton());
-                  theView.playCards(theView.humanHand.inspectCard(x), theView.computerHand);
+            theView.playerSkipCount++;
+
+            theView.computerPlayCard( theView.computerHand );
+         }
+
+         else
+         {
+            theView.setCurrentButton((JButton) e.getSource());
+
+            loop:
+            for (int x = 0; x < theView.NUM_CARDS_PER_HAND; x++)
+            {
+               if (theView.getCurrentButton() == theView.humanCardButtons[x])
+               {
+                  if (theView.checkPlayedCard(theView.humanHand.inspectCard(x)))
+                  {
+
+                     theView.myCardTable.pnlHumanHand.remove(theView.getCurrentButton());
+                     theView.playCards(theView.humanHand.inspectCard(x), theView.computerHand);
+                     break loop;
+                  }
                   break loop;
                }
-               break loop;
             }
          }
          theView.refreshPlayerPanel();
-         theView.refreshPlayArea();
+         theView.refreshScreen();
       }
    }
 }
