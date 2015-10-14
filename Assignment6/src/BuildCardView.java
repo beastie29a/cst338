@@ -23,6 +23,9 @@ public class BuildCardView
    static CardTable myCardTable
          = new CardTable("CardTable", NUM_CARDS_PER_HAND, NUM_PLAYERS);
 
+   // Instantiate Timer object
+   static Clock insertClock = new Clock();
+
    // Phase 3 Declarations
    static int numPacksPerDeck = 1;
    static int numJokersPerPack = 0;
@@ -55,11 +58,13 @@ public class BuildCardView
       myCardTable.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
       myCardTable.pnlComputerHand.setBorder(
-            BorderFactory.createTitledBorder("Computer Hand"));
+         BorderFactory.createTitledBorder("Computer Hand"));
       myCardTable.pnlHumanHand.setBorder(
             BorderFactory.createTitledBorder("Your Hand"));
       myCardTable.pnlPlayArea.setBorder(
             BorderFactory.createTitledBorder("Playing Area"));
+      myCardTable.pnlTimer.setBorder(
+         BorderFactory.createTitledBorder("Timer"));
       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
 
       // CREATE LABELS ----------------------------------------------------
@@ -80,8 +85,14 @@ public class BuildCardView
          myCardTable.pnlComputerHand.add(computerLabels[k]);
 
       setupPlayerHand(humanHand, computerHand);
-
       setupPlayArea();
+
+      // ADD TIMER -----------------------------------------------------
+      myCardTable.pnlTimer.add(insertClock.timeText);
+      myCardTable.pnlTimer.add(insertClock.startStopButton);
+
+      // Increase timer display font size
+      insertClock.timeText.setFont(new Font("Aerial", Font.BOLD, 20));
 
       // show everything to the user
       //myCardTable.setVisible(true);
@@ -332,7 +343,7 @@ public class BuildCardView
       private int numPlayers;
 
       public JPanel pnlComputerHand, pnlHumanHand, pnlPlayArea;
-      public JPanel mainPanel;
+      public JPanel mainPanel, pnlTimer;
 
       public CardTable(String title, int numCardsPerHand, int numPlayers)
       {
@@ -346,10 +357,12 @@ public class BuildCardView
          pnlComputerHand = new JPanel();
          pnlHumanHand = new JPanel();
          pnlPlayArea = new JPanel();
+         pnlTimer = new JPanel();
 
          add(pnlComputerHand, BorderLayout.NORTH);
          add(pnlPlayArea, BorderLayout.CENTER);
          add(pnlHumanHand, BorderLayout.SOUTH);
+         add(pnlTimer, BorderLayout.EAST);
       }
 
       private boolean isValid(String title, int numCardsPerHand, int numPlayers)
@@ -456,5 +469,108 @@ class GUICard
       return (Icon) iconBack;
    }
 
+}
+
+// Set up Timer and button actions to run on separate thread
+class Clock extends JFrame
+{
+   private int counter = 0;
+   private boolean runTimer = false;
+   private final int PAUSE = 100; // Milliseconds
+   private String start = "START";
+   private String stop = "STOP";
+
+   public Timer clockTimer;
+   public JButton startStopButton;
+   public JLabel timeText;
+   public JPanel timerPanel;
+
+   // Default constructor creates GUI
+   public Clock()
+   {
+      // Timer action set to 1000 milliseconds
+      clockTimer = new Timer(1000, timerEvent);
+
+      timeText = new JLabel("" + formatToTime(counter));
+
+      startStopButton = new JButton(start);
+      startStopButton.addActionListener(buttonEvent);
+
+      /***Display clock in separate window for testing***/
+      //timerPanel = new JPanel();
+      //timerPanel.add(timeText);
+      //timerPanel.setLayout(new BorderLayout());
+      //add(timerPanel, BorderLayout.CENTER);
+      //timerPanel.add(timeText, BorderLayout.NORTH);
+      //timerPanel.add(startStopButton, BorderLayout.SOUTH);
+
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setSize(200, 200);
+   }
+
+   // Format timer output to string as minutes:seconds
+   public String formatToTime(long seconds)
+   {
+      long s = seconds % 60;
+      long m = (seconds / 60) % 60;
+      return String.format("%01d:%02d", m, s);
+   }
+
+   // Increment Timer
+   private ActionListener timerEvent = new ActionListener()
+   {
+      public void actionPerformed(ActionEvent e)
+      {
+         counter++;
+         timeText.setText("" + formatToTime(counter));
+      }
+   };
+
+   // Create Timer object and call run method
+   private ActionListener buttonEvent = new ActionListener()
+   {
+      public void actionPerformed(ActionEvent e)
+      {
+         TimerClass timerThread = new TimerClass();
+         timerThread.start();
+      }
+   };
+
+   // Called by ActionListener to start, stop, and display time and buttons
+   private class TimerClass extends Thread
+   {
+      public void run()
+      {
+         if (runTimer)
+         {
+            startStopButton.setText(start);
+            clockTimer.stop();
+            runTimer = false;
+            timeText.setText("" + formatToTime(counter));
+         }
+         else if (!runTimer)
+         {
+            startStopButton.setText(stop);
+            clockTimer.start();
+            runTimer = true;
+            counter = 0;
+            timeText.setText("" + formatToTime(counter));
+         }
+         doNothing(PAUSE);
+      }
+
+      // Pause thread helper method
+      public void doNothing(int milliseconds)
+      {
+         try
+         {
+            Thread.sleep(milliseconds);
+         } catch (InterruptedException e)
+         {
+            System.out.println("Unexpected interrupt");
+            System.exit(0);
+         }
+      }
+   } //End TimerClass inner class
 }
 
