@@ -30,6 +30,7 @@ public class BuildCardView
 
    // Instantiate Cannot Play Button
    static JButton cantPlay = new JButton("I Cannot Play");
+   static int cannotPlay = 0;
 
    // Phase 3 Declarations
    static int numPacksPerDeck = 1;
@@ -113,7 +114,15 @@ public class BuildCardView
    {
       public void actionPerformed(ActionEvent e)
       {
-         
+         if (cannotPlay == 1)
+         {
+            cannotPlay = 0;
+            clearPlayArea();
+            setupPlayArea();
+            refreshPlayArea();
+         }
+         else
+            cannotPlay++;
       }
    };
 
@@ -286,14 +295,29 @@ public class BuildCardView
    {
       //TODO: get card from Computer's hand
       Card computerCard = new Card();
+      boolean cardPlayed = false;
 
       for (int i = 0; i < computerHand.getNumCards(); i++)
       {
          if (checkPlayedCard(computerHand.inspectCard(i)))
          {
             computerCard = computerHand.playCard(i);
+            cardPlayed = true;
             break;
          }
+      }
+
+      if (!cardPlayed)
+      {
+         if (cannotPlay == 1)
+         {
+            cannotPlay = 0;
+            clearPlayArea();
+            setupPlayArea();
+            refreshPlayArea();
+         }
+         else
+            cannotPlay++;
       }
 
       refreshScreen();

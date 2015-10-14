@@ -39,6 +39,7 @@ public class BuildCardController {
             }
          }
          theView.refreshPlayerPanel();
+         theView.refreshPlayArea();
       }
    }
 }
