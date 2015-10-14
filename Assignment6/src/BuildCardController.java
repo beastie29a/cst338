@@ -23,8 +23,6 @@ public class BuildCardController {
       public void actionPerformed(ActionEvent e)
       {
          theView.setCurrentButton((JButton) e.getSource());
-
-         theView.myCardTable.pnlHumanHand.remove(theView.getCurrentButton());
          loop:
          for (int x = 0; x < theView.NUM_CARDS_PER_HAND; x++)
          {
@@ -32,9 +30,11 @@ public class BuildCardController {
             {
                if (theView.checkPlayedCard(theView.humanHand.inspectCard(x)))
                {
+                  theView.myCardTable.pnlHumanHand.remove(theView.getCurrentButton());
                   theView.playCards(theView.humanHand.inspectCard(x), theView.computerHand);
                   break loop;
                }
+               break loop;
             }
          }
          theView.refreshPlayerPanel();
