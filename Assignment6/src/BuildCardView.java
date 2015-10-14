@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -26,6 +27,9 @@ public class BuildCardView
 
    // Instantiate Timer object
    static Clock insertClock = new Clock();
+
+   // Instantiate Cannot Play Button
+   static JButton cantPlay = new JButton("I Cannot Play");
 
    // Phase 3 Declarations
    static int numPacksPerDeck = 1;
@@ -67,6 +71,7 @@ public class BuildCardView
       myCardTable.pnlTimer.setBorder(
          BorderFactory.createTitledBorder("Timer"));
       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
+      myCardTable.pnlTimer.setLayout(new GridLayout(3, 1));
 
       // CREATE LABELS ----------------------------------------------------
 
@@ -93,12 +98,26 @@ public class BuildCardView
       myCardTable.pnlTimer.add(insertClock.startStopButton);
 
       // Increase timer display font size
-      insertClock.timeText.setFont(new Font("Aerial", Font.BOLD, 20));
+      insertClock.timeText.setFont(new Font("Aerial", Font.BOLD, 60));
+
+      // ADD Can't Play Button----------------------------------
+      myCardTable.pnlTimer.add(cantPlay);
+      cantPlay.addActionListener(cantPlayEvent);
 
       // show everything to the user
       //myCardTable.setVisible(true);
    }
 
+   // Listener for Can't Play Button------------------------------------
+   public static ActionListener cantPlayEvent = new ActionListener()
+   {
+      public void actionPerformed(ActionEvent e)
+      {
+         
+      }
+   };
+
+   //------------------------------------------------------------------
 
    public static void setupPlayArea()
    {
