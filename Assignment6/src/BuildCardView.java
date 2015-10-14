@@ -1,6 +1,7 @@
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -26,6 +27,12 @@ public class BuildCardView
 
    // Instantiate Timer object
    static Clock insertClock = new Clock();
+
+   // Instantiate Cannot Play Button
+   static JButton cantPlay = new JButton("I Cannot Play");
+   static int cannotPlay = 0;
+   static int playerSkipCount = 0;
+   static int computerSkipCount = 0;
 
    // Phase 3 Declarations
    static int numPacksPerDeck = 1;
@@ -67,6 +74,7 @@ public class BuildCardView
       myCardTable.pnlTimer.setBorder(
          BorderFactory.createTitledBorder("Timer"));
       myCardTable.pnlPlayArea.setLayout(new GridLayout(2, 2));
+      myCardTable.pnlTimer.setLayout(new GridLayout(3, 1));
 
       // CREATE LABELS ----------------------------------------------------
 
@@ -77,7 +85,6 @@ public class BuildCardView
 
       humanHand = highCardGame.getHand(1);
 
-      highCardGame.sortHands();
       for (k = 0; k < NUM_CARDS_PER_HAND; k++)
          humanLabels[k] = new JLabel(cardGUI.getIcon(humanHand.inspectCard(k)));
 
@@ -85,7 +92,7 @@ public class BuildCardView
       for (k = 0; k < NUM_CARDS_PER_HAND; k++)
          myCardTable.pnlComputerHand.add(computerLabels[k]);
 
-      setupPlayerHand(humanHand, computerHand);
+      setupPlayerHand(humanHand);
       setupPlayArea();
 
       // ADD TIMER -----------------------------------------------------
@@ -93,11 +100,13 @@ public class BuildCardView
       myCardTable.pnlTimer.add(insertClock.startStopButton);
 
       // Increase timer display font size
-      insertClock.timeText.setFont(new Font("Aerial", Font.BOLD, 20));
+      insertClock.timeText.setFont(new Font("Aerial", Font.BOLD, 60));
 
-      // show everything to the user
-      //myCardTable.setVisible(true);
+      // ADD Can't Play Button----------------------------------
+      myCardTable.pnlTimer.add(cantPlay);
+
    }
+
 
 
    public static void setupPlayArea()
@@ -113,11 +122,11 @@ public class BuildCardView
       {
          myCardTable.pnlPlayArea.add(playedCardLabels[k]);
       }
+      refreshPlayArea();
 
    }
 
-   public static void setupPlayerHand(
-         final Hand humanHand, final Hand computerHand)
+   public static void setupPlayerHand(final Hand humanHand)
    {
 
       for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
@@ -139,6 +148,8 @@ public class BuildCardView
          currentButton = humanCardButtons[k];
          humanCardButtons[k].addActionListener(listenForPlayCard);
       }
+
+      cantPlay.addActionListener(listenForPlayCard);
 
    }
 
@@ -200,8 +211,7 @@ public class BuildCardView
    {
       clearPlayArea();
       playerPlayCard(playerCard);
-      //playerWins(playerCard,
-            computerPlayCard(computerHand);
+      computerPlayCard(computerHand);
       addCardsToPlayArea();
       endGame();
    }
@@ -269,14 +279,31 @@ public class BuildCardView
    public static Card computerPlayCard(Hand computerHand)
    {
       Card computerCard = new Card();
+      boolean cardPlayed = false;
 
       for (int i = 0; i < computerHand.getNumCards(); i++)
       {
          if (checkPlayedCard(computerHand.inspectCard(i)))
          {
             computerCard = computerHand.playCard(i);
+            cardPlayed = true;
             break;
          }
+      }
+
+      if (!cardPlayed)
+      {
+         System.out.println("Computer Cannot Play");
+         if (cannotPlay == 1)
+         {
+            cannotPlay = 0;
+            clearPlayArea();
+            setupPlayArea();
+            refreshPlayArea();
+         }
+         else
+            cannotPlay++;
+         computerSkipCount++;
       }
 
       refreshScreen();
