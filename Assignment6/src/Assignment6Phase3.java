@@ -1,7 +1,7 @@
 /**
  * CST 338 - Fall 2015 Session A
  * Assignment 6
- * Phase I
+ * Phase III
  *
  * @author Robert Contreras
  * @author Ryan Doherty
