@@ -126,6 +126,22 @@ public class BuildCardView
 
    }
 
+   public static void redrawPlayArea()
+   {
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.remove(playedCardLabels[k]);
+         playedCardLabels[k] = new JLabel(
+               cardGUI.getIcon(playedCards[k]),
+               JLabel.CENTER);
+      }
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.add(playedCardLabels[k]);
+      }
+      refreshPlayArea();
+   }
+
    public static void setupPlayerHand(final Hand humanHand)
    {
 
@@ -289,13 +305,16 @@ public class BuildCardView
          {
             computerCard = computerHand.playCard(i);
             cardPlayed = true;
+            highCardGame.takeCard(0);
+            redrawPlayArea();
             break;
          }
       }
 
       if (!cardPlayed)
       {
-         System.out.println("Computer Cannot Play");
+         System.out.println("Computer Cannot Play" + computerHand);
+
          if (cannotPlay == 1)
          {
             cannotPlay = 0;
@@ -304,9 +323,13 @@ public class BuildCardView
             refreshPlayArea();
          }
          else
+         {
             cannotPlay++;
+
+         }
          computerSkipCount++;
       }
+
 
       refreshScreen();
       return computerCard;
