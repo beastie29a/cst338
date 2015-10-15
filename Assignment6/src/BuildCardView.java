@@ -540,8 +540,8 @@ class Clock extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         counter++;
-         timeText.setText("" + formatToTime(counter));
+         TimerClass timerThread = new TimerClass();
+         timerThread.start();
       }
    };
 
@@ -550,22 +550,11 @@ class Clock extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         TimerClass timerThread = new TimerClass();
-         timerThread.start();
-      }
-   };
-
-   // Called by ActionListener to start, stop, and display time and buttons
-   private class TimerClass extends Thread
-   {
-      public void run()
-      {
          if (runTimer)
          {
             startStopButton.setText(start);
             clockTimer.stop();
             runTimer = false;
-            timeText.setText("" + formatToTime(counter));
          }
          else if (!runTimer)
          {
@@ -575,6 +564,16 @@ class Clock extends JFrame
             counter = 0;
             timeText.setText("" + formatToTime(counter));
          }
+      }
+   };
+
+   // Called by ActionListener to start, stop, and display time and buttons
+   private class TimerClass extends Thread
+   {
+      public void run()
+      {
+         counter++;
+         timeText.setText("" + formatToTime(counter));
          doNothing(PAUSE);
       }
 
@@ -592,4 +591,3 @@ class Clock extends JFrame
       }
    } //End TimerClass inner class
 }
-
