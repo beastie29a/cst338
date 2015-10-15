@@ -39,8 +39,6 @@ public class BuildCardView
    static int numJokersPerPack = 0;
    static int numUnusedCardsPerPack = 0;
    static Card[] unusedCardsPerPack = null;
-   static Card[] winnings = new Card[NUM_CARDS_PER_HAND * 2];
-   static int winningTotal = 0;
    static Hand humanHand;
    static Hand computerHand;
 
@@ -124,6 +122,22 @@ public class BuildCardView
       }
       refreshPlayArea();
 
+   }
+
+   public static void redrawPlayArea()
+   {
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.remove(playedCardLabels[k]);
+         playedCardLabels[k] = new JLabel(
+               cardGUI.getIcon(playedCards[k]),
+               JLabel.CENTER);
+      }
+      for (int k = 0; k < NUM_PLAYERS; k++)
+      {
+         myCardTable.pnlPlayArea.add(playedCardLabels[k]);
+      }
+      refreshPlayArea();
    }
 
    public static void setupPlayerHand(final Hand humanHand)
@@ -213,7 +227,6 @@ public class BuildCardView
       playerPlayCard(playerCard);
       computerPlayCard(computerHand);
       addCardsToPlayArea();
-      endGame();
    }
 
    public static boolean checkPlayedCard(Card playerCard)
@@ -225,10 +238,12 @@ public class BuildCardView
             value == getIndexValue(playedCards[i].getchar()) + 1)
          {
             // Assign the value to the array
+            cannotPlay = 0;
             myCardTable.pnlPlayArea.remove(playedCardLabels[i]);
-            playedCards[i] = playerCard;
+            playedCards[i] = new Card(playerCard.getchar(),
+               playerCard.getSuit());
             playedCardLabels[i] = new JLabel(
-                  cardGUI.getIcon(playerCard), JLabel.CENTER);
+               cardGUI.getIcon(playerCard), JLabel.CENTER);
             return true;
          }
       }
@@ -247,10 +262,13 @@ public class BuildCardView
          }
       }
 
-      if (k == x)
+      int deckCards = highCardGame.getNumCardsRemainingInDeck();
+      System.out.println(deckCards);
+
+      if (deckCards == 0)
       {
          clearPlayArea();
-         if (getWinnings() >= 8)
+         if (playerSkipCount < computerSkipCount)
          {
             myCardTable.pnlPlayArea.add(new JLabel("You Win!", JLabel.CENTER));
          } else
@@ -287,13 +305,16 @@ public class BuildCardView
          {
             computerCard = computerHand.playCard(i);
             cardPlayed = true;
+            highCardGame.takeCard(0);
+            redrawPlayArea();
             break;
          }
       }
 
       if (!cardPlayed)
       {
-         System.out.println("Computer Cannot Play");
+         System.out.println("Computer Cannot Play" + computerHand);
+
          if (cannotPlay == 1)
          {
             cannotPlay = 0;
@@ -302,24 +323,14 @@ public class BuildCardView
             refreshPlayArea();
          }
          else
+         {
             cannotPlay++;
+
+         }
          computerSkipCount++;
       }
-
       refreshScreen();
       return computerCard;
-   }
-
-   public static void addToWinnings(Card playerCard, Card computerCard)
-   {
-      winnings[winningTotal] = playerCard;
-      winnings[winningTotal + 1] = computerCard;
-      winningTotal = winningTotal + 2;
-   }
-
-   public static int getWinnings()
-   {
-      return winningTotal;
    }
 
    public static boolean playerWins(Card playerCard, Card computerCard)
@@ -329,7 +340,6 @@ public class BuildCardView
 
       if (playerValue >= computerValue)
       {
-         addToWinnings(playerCard, computerCard);
          return true;
       }
       return false;
@@ -538,8 +548,8 @@ class Clock extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         counter++;
-         timeText.setText("" + formatToTime(counter));
+         TimerClass timerThread = new TimerClass();
+         timerThread.start();
       }
    };
 
@@ -548,22 +558,11 @@ class Clock extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         TimerClass timerThread = new TimerClass();
-         timerThread.start();
-      }
-   };
-
-   // Called by ActionListener to start, stop, and display time and buttons
-   private class TimerClass extends Thread
-   {
-      public void run()
-      {
          if (runTimer)
          {
             startStopButton.setText(start);
             clockTimer.stop();
             runTimer = false;
-            timeText.setText("" + formatToTime(counter));
          }
          else if (!runTimer)
          {
@@ -573,6 +572,16 @@ class Clock extends JFrame
             counter = 0;
             timeText.setText("" + formatToTime(counter));
          }
+      }
+   };
+
+   // Called by ActionListener to start, stop, and display time and buttons
+   private class TimerClass extends Thread
+   {
+      public void run()
+      {
+         counter++;
+         timeText.setText("" + formatToTime(counter));
          doNothing(PAUSE);
       }
 
@@ -590,4 +599,3 @@ class Clock extends JFrame
       }
    } //End TimerClass inner class
 }
-

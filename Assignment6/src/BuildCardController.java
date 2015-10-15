@@ -30,6 +30,7 @@ public class BuildCardController {
                theView.cannotPlay = 0;
                theView.clearPlayArea();
                theView.setupPlayArea();
+               theView.refreshPlayArea();
             }
             else
                theView.cannotPlay++;
@@ -69,6 +70,7 @@ public class BuildCardController {
          //System.out.println("---");
          theView.refreshPlayerPanel();
          theView.refreshScreen();
+         theView.endGame();
       }
    }
 }
