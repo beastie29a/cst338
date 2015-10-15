@@ -210,7 +210,37 @@ public class BuildCardView
       }
       refreshPlayArea();
    }
+   
 
+   public static void clearHumanHandArea()
+   {
+
+      for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
+      {
+         myCardTable.pnlHumanHand.remove(humanCardButtons[k]);
+      }
+      refreshPlayerPanel();
+   }
+
+   public static void clearComputerHandArea()
+   {
+
+      for (int k = 0; k < NUM_CARDS_PER_HAND; k++)
+      {
+         myCardTable.pnlComputerHand.remove(computerLabels[k]);
+      }
+      refreshComputerPanel();
+   }
+   
+
+   public static void clearScreen()
+   {
+       clearPlayArea();
+       clearHumanHandArea();
+       clearComputerHandArea();
+   }
+   
+   
    public static void addCardsToPlayArea()
    {
 
@@ -261,13 +291,13 @@ public class BuildCardView
             x++;
          }
       }
-
+      
       int deckCards = highCardGame.getNumCardsRemainingInDeck();
       System.out.println(deckCards);
-
+      
       if (deckCards == 0)
       {
-         clearPlayArea();
+         clearScreen();
          if (playerSkipCount < computerSkipCount)
          {
             myCardTable.pnlPlayArea.add(new JLabel("You Win!", JLabel.CENTER));
