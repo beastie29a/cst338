@@ -225,10 +225,12 @@ public class BuildCardView
             value == getIndexValue(playedCards[i].getchar()) + 1)
          {
             // Assign the value to the array
+            cannotPlay = 0;
             myCardTable.pnlPlayArea.remove(playedCardLabels[i]);
-            playedCards[i] = playerCard;
+            playedCards[i] = new Card(playerCard.getchar(),
+               playerCard.getSuit());
             playedCardLabels[i] = new JLabel(
-                  cardGUI.getIcon(playerCard), JLabel.CENTER);
+               cardGUI.getIcon(playerCard), JLabel.CENTER);
             return true;
          }
       }
