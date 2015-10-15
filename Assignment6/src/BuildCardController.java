@@ -70,6 +70,7 @@ public class BuildCardController {
          //System.out.println("---");
          theView.refreshPlayerPanel();
          theView.refreshScreen();
+         theView.endGame();
       }
    }
 }

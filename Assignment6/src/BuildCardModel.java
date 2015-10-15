@@ -362,9 +362,11 @@ class Deck
    // Returns and removes the card  at the top position
    public Card dealCard()
    {
-      int tCard = topCard;
+      Card dealtCard = new Card(cards[topCard].getchar(),
+         cards[topCard].getSuit());
+      cards[topCard] = null;
       topCard--;
-      return cards[tCard];
+      return dealtCard;
    }
 
    // Accessor for topCard

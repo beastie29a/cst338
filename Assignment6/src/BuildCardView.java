@@ -39,8 +39,6 @@ public class BuildCardView
    static int numJokersPerPack = 0;
    static int numUnusedCardsPerPack = 0;
    static Card[] unusedCardsPerPack = null;
-   static Card[] winnings = new Card[NUM_CARDS_PER_HAND * 2];
-   static int winningTotal = 0;
    static Hand humanHand;
    static Hand computerHand;
 
@@ -229,7 +227,6 @@ public class BuildCardView
       playerPlayCard(playerCard);
       computerPlayCard(computerHand);
       addCardsToPlayArea();
-      endGame();
    }
 
    public static boolean checkPlayedCard(Card playerCard)
@@ -265,10 +262,13 @@ public class BuildCardView
          }
       }
 
-      if (k == x)
+      int deckCards = highCardGame.getNumCardsRemainingInDeck();
+      System.out.println(deckCards);
+
+      if (deckCards == 0)
       {
          clearPlayArea();
-         if (getWinnings() >= 8)
+         if (playerSkipCount < computerSkipCount)
          {
             myCardTable.pnlPlayArea.add(new JLabel("You Win!", JLabel.CENTER));
          } else
@@ -329,22 +329,8 @@ public class BuildCardView
          }
          computerSkipCount++;
       }
-
-
       refreshScreen();
       return computerCard;
-   }
-
-   public static void addToWinnings(Card playerCard, Card computerCard)
-   {
-      winnings[winningTotal] = playerCard;
-      winnings[winningTotal + 1] = computerCard;
-      winningTotal = winningTotal + 2;
-   }
-
-   public static int getWinnings()
-   {
-      return winningTotal;
    }
 
    public static boolean playerWins(Card playerCard, Card computerCard)
@@ -354,7 +340,6 @@ public class BuildCardView
 
       if (playerValue >= computerValue)
       {
-         addToWinnings(playerCard, computerCard);
          return true;
       }
       return false;
